@@ -1,0 +1,189 @@
+{
+  "terrain_types": {
+    "coastal_alpine": {
+      "name": "Summit-to-Sea (Coastal Alpine)",
+      "description": "Dramatic mountains rising directly from fjords and ocean",
+      "characteristics": [
+        "Steep descents to water",
+        "Dramatic fjord views", 
+        "Maritime snow conditions",
+        "Variable weather"
+      ],
+      "appeal": "Ski from mountain peak directly to the ocean",
+      "typical_locations": ["Lyngen", "Lofoten", "Narvik", "Sunnmøre"],
+      "view_score_multiplier": 1.2,
+      "difficulty_modifier": 0.8,
+      "weather_sensitivity": "high"
+    },
+    "high_alpine": {
+      "name": "High Alpine (Glacial Peaks)",
+      "description": "Massive glaciated peaks and technical mountain terrain", 
+      "characteristics": [
+        "High elevation skiing",
+        "Glacier access",
+        "Technical terrain",
+        "Extended season"
+      ],
+      "appeal": "Stand on Norway's rooftop among glaciated giants",
+      "typical_locations": ["Jotunheimen", "Galdhøpiggen area"],
+      "view_score_multiplier": 1.1,
+      "difficulty_modifier": 1.2,
+      "weather_sensitivity": "very_high"
+    },
+    "forest_valley": {
+      "name": "Forest & Valley (Gentle Touring)",
+      "description": "Tree skiing and rolling terrain, family-friendly",
+      "characteristics": [
+        "Tree skiing protection",
+        "Gentle terrain",
+        "Good access",
+        "Family suitable"
+      ],
+      "appeal": "Peaceful forest skiing, safe and accessible",
+      "typical_locations": ["Hemsedal valleys", "Lillehammer region"],
+      "view_score_multiplier": 0.8,
+      "difficulty_modifier": 0.6,
+      "weather_sensitivity": "low"
+    },
+    "plateau_ridge": {
+      "name": "Plateau & Ridge (Wide Open)",
+      "description": "Vast open spaces and windswept mountain plateaus",
+      "characteristics": [
+        "Wide open terrain",
+        "Long approaches", 
+        "Windswept conditions",
+        "Endless views"
+      ],
+      "appeal": "Endless views across windswept plateaus",
+      "typical_locations": ["Hardangervidda", "Rondane", "Trollheimen"],
+      "view_score_multiplier": 0.9,
+      "difficulty_modifier": 0.7,
+      "weather_sensitivity": "very_high"
+    },
+    "fjord_valley": {
+      "name": "Fjord Valley (Scenic Corridors)",
+      "description": "Protected valleys between towering fjord walls",
+      "characteristics": [
+        "Protected valleys",
+        "Dramatic walls",
+        "Waterfalls",
+        "Intimate scale"
+      ],
+      "appeal": "Intimate valleys between towering peaks",
+      "typical_locations": ["Sognefjord area", "Romsdalen", "Inner fjords"],
+      "view_score_multiplier": 1.0,
+      "difficulty_modifier": 0.9,
+      "weather_sensitivity": "medium"
+    }
+  },
+  "difficulty_levels": {
+    "beginner": {
+      "name": "Beginner Friendly",
+      "description": "Gentle terrain, good access, lower avalanche risk",
+      "slope_angle": "< 25°",
+      "elevation_gain": "< 800m",
+      "technical_skills": "Basic ski touring skills",
+      "avalanche_education": "Awareness level"
+    },
+    "intermediate": {
+      "name": "Intermediate",
+      "description": "Moderate terrain, some exposure, route finding required",
+      "slope_angle": "25-35°", 
+      "elevation_gain": "800-1200m",
+      "technical_skills": "Confident off-piste skiing",
+      "avalanche_education": "Rescue course recommended"
+    },
+    "advanced": {
+      "name": "Advanced",
+      "description": "Steep terrain, significant exposure, expert skills required",
+      "slope_angle": "> 35°",
+      "elevation_gain": "> 1200m", 
+      "technical_skills": "Expert off-piste and touring skills",
+      "avalanche_education": "Level 2+ required"
+    }
+  },
+  "access_types": {
+    "road_access": {
+      "name": "Road Access",
+      "description": "Accessible by car year-round or with winter tires",
+      "convenience": 10,
+      "cost": "low"
+    },
+    "road_closed_winter": {
+      "name": "Road Closed in Winter", 
+      "description": "Road access in summer, requires longer approach in winter",
+      "convenience": 4,
+      "cost": "medium"
+    },
+    "boat_or_snowmobile": {
+      "name": "Boat or Snowmobile Access",
+      "description": "Requires boat transport or snowmobile access",
+      "convenience": 6,
+      "cost": "high"
+    },
+    "hut_access": {
+      "name": "Mountain Hut Access",
+      "description": "Accessible via mountain huts and marked trails",
+      "convenience": 5,
+      "cost": "medium"
+    },
+    "lift_access": {
+      "name": "Ski Lift Access",
+      "description": "Lift-assisted access to ski touring terrain",
+      "convenience": 9,
+      "cost": "medium"
+    }
+  },
+  "avalanche_exposure": {
+    "very_low": {
+      "name": "Very Low",
+      "description": "Terrain generally < 25°, minimal avalanche risk",
+      "safety_multiplier": 1.0
+    },
+    "low": {
+      "name": "Low", 
+      "description": "Some steeper terrain, basic avalanche awareness needed",
+      "safety_multiplier": 0.9
+    },
+    "moderate": {
+      "name": "Moderate",
+      "description": "Regular avalanche terrain, route choice important",
+      "safety_multiplier": 0.8
+    },
+    "high": {
+      "name": "High",
+      "description": "Significant avalanche terrain, expert skills required",
+      "safety_multiplier": 0.6
+    }
+  },
+  "seasonal_windows": {
+    "December-March": {
+      "description": "Early season to mid-winter",
+      "characteristics": ["Shorter days", "Variable conditions", "Building snowpack"]
+    },
+    "December-April": {
+      "description": "Standard Norwegian ski season",
+      "characteristics": ["Good snow reliability", "Reasonable daylight", "Stable conditions"]
+    },
+    "February-April": {
+      "description": "Prime arctic season",
+      "characteristics": ["Best light", "Stable snow", "Peak conditions"]
+    },
+    "February-May": {
+      "description": "Extended season",
+      "characteristics": ["Long days", "Spring conditions", "Variable stability"]
+    },
+    "March-May": {
+      "description": "Spring touring season", 
+      "characteristics": ["Corn snow", "Long days", "Stable weather"]
+    },
+    "March-June": {
+      "description": "High alpine extended season",
+      "characteristics": ["Glacier access", "Midnight sun approaching", "Summer skiing"]
+    },
+    "January-April": {
+      "description": "Full winter season",
+      "characteristics": ["Cold and stable", "Reliable snow", "Traditional season"]
+    }
+  }
+}

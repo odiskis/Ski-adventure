@@ -1,0 +1,1 @@
+// Landing page JavaScript - to be implemented

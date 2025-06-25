@@ -1,0 +1,593 @@
+{% extends "base.html" %}
+
+{% block title %}Your Ski Touring Personality - Quiz Results{% endblock %}
+
+{% block description %}Discover your personalized ski touring profile and get ready for customized mountain recommendations.{% endblock %}
+
+{% block body_class %}quiz-results-page{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/quiz.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="quiz-results-container">
+    <!-- Background with celebration elements -->
+    <div class="results-background">
+        <svg class="celebration-svg" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+            <!-- Mountain silhouette with success feeling -->
+            <defs>
+                <linearGradient id="successGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#27ae60;stop-opacity:0.2"/>
+                    <stop offset="100%" style="stop-color:#2ecc71;stop-opacity:0.1"/>
+                </linearGradient>
+            </defs>
+            <path d="M0,600 L200,200 L400,350 L600,150 L800,300 L1000,100 L1200,250 L1200,800 L0,800 Z" fill="url(#successGrad)"/>
+            
+            <!-- Celebratory elements -->
+            <circle cx="300" cy="200" r="3" fill="#f39c12" opacity="0.8">
+                <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="500" cy="150" r="4" fill="#e74c3c" opacity="0.6">
+                <animate attributeName="opacity" values="0.6;0.2;0.6" dur="1.5s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="700" cy="250" r="3" fill="#3498db" opacity="0.7">
+                <animate attributeName="opacity" values="0.7;0.3;0.7" dur="1.8s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="900" cy="180" r="5" fill="#9b59b6" opacity="0.5">
+                <animate attributeName="opacity" values="0.5;0.1;0.5" dur="2.2s" repeatCount="indefinite"/>
+            </circle>
+        </svg>
+    </div>
+    
+    <!-- Results Content -->
+    <div class="results-content container">
+        <!-- Success Header -->
+        <div class="results-header">
+            <div class="success-icon">🎿</div>
+            <h1 class="results-title">Quiz Complete!</h1>
+            <p class="results-subtitle">
+                We've analyzed your preferences and created your personalized ski touring profile.
+            </p>
+        </div>
+        
+        <!-- Profile Summary Card -->
+        <div class="profile-summary-card">
+            <div class="profile-header">
+                <h2 class="profile-title">
+                    🎯 Your Ski Touring Personality:
+                    <span class="personality-type">{{ profile_summary.split(':')[1].split('\n')[0].strip() if ':' in profile_summary else 'Balanced Ski Tourer' }}</span>
+                </h2>
+            </div>
+            
+            <div class="profile-content">
+                <div class="profile-description">
+                    {{ profile_summary | safe }}
+                </div>
+                
+                <!-- Preference Indicators -->
+                <div class="preferences-grid">
+                    <div class="preference-item">
+                        <div class="preference-label">Fresh Snow Priority</div>
+                        <div class="preference-bar">
+                            <div class="preference-fill" style="width: {{ (profile.powder_priority / 10 * 100) }}%"></div>
+                        </div>
+                        <div class="preference-value">{{ profile.powder_priority }}/10</div>
+                    </div>
+                    
+                    <div class="preference-item">
+                        <div class="preference-label">Scenic Views Priority</div>
+                        <div class="preference-bar">
+                            <div class="preference-fill" style="width: {{ (profile.view_priority / 10 * 100) }}%"></div>
+                        </div>
+                        <div class="preference-value">{{ profile.view_priority }}/10</div>
+                    </div>
+                    
+                    <div class="preference-item">
+                        <div class="preference-label">Safety Priority</div>
+                        <div class="preference-bar">
+                            <div class="preference-fill" style="width: {{ (profile.safety_priority / 10 * 100) }}%"></div>
+                        </div>
+                        <div class="preference-value">{{ profile.safety_priority }}/10</div>
+                    </div>
+                    
+                    <div class="preference-item">
+                        <div class="preference-label">Adventure Seeking</div>
+                        <div class="preference-bar">
+                            <div class="preference-fill" style="width: {{ (profile.adventure_seeking / 10 * 100) }}%"></div>
+                        </div>
+                        <div class="preference-value">{{ profile.adventure_seeking }}/10</div>
+                    </div>
+                </div>
+                
+                <!-- Key Characteristics -->
+                <div class="characteristics">
+                    <div class="characteristic-item">
+                        <span class="char-label">Preferred Terrain:</span>
+                        <span class="char-value">
+                            {% if profile.terrain_preference == 'coastal_alpine' %}
+                                🌊 Coastal Alpine (Summit-to-Sea)
+                            {% elif profile.terrain_preference == 'high_alpine' %}
+                                🏔️ High Alpine (Glaciated Peaks)
+                            {% elif profile.terrain_preference == 'forest_valley' %}
+                                🌲 Forest Valley (Gentle Touring)
+                            {% elif profile.terrain_preference == 'plateau_ridge' %}
+                                🌬️ Plateau Ridge (Wide Open)
+                            {% elif profile.terrain_preference == 'fjord_valley' %}
+                                🏞️ Fjord Valley (Scenic Corridors)
+                            {% else %}
+                                ⛰️ Balanced Terrain
+                            {% endif %}
+                        </span>
+                    </div>
+                    
+                    <div class="characteristic-item">
+                        <span class="char-label">Risk Tolerance:</span>
+                        <span class="char-value">
+                            {% if profile.risk_tolerance == 'conservative' %}
+                                🛡️ Conservative
+                            {% elif profile.risk_tolerance == 'aggressive' %}
+                                ⚡ Aggressive
+                            {% else %}
+                                ⚖️ Moderate
+                            {% endif %}
+                        </span>
+                    </div>
+                    
+                    <div class="characteristic-item">
+                        <span class="char-label">Experience Level:</span>
+                        <span class="char-value">
+                            {% if profile.experience_level == 'beginner' %}
+                                🌱 Beginner
+                            {% elif profile.experience_level == 'advanced' %}
+                                🏆 Advanced
+                            {% else %}
+                                🎿 Intermediate
+                            {% endif %}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- What This Means Section -->
+        <div class="profile-insights">
+            <h3>🔍 What This Means for Your Recommendations</h3>
+            <div class="insights-grid">
+                {% if profile.powder_priority >= 7 %}
+                <div class="insight-item">
+                    <div class="insight-icon">❄️</div>
+                    <div class="insight-text">
+                        <strong>Powder Focused:</strong> We'll prioritize destinations with fresh snow and recent snowfall in your recommendations.
+                    </div>
+                </div>
+                {% endif %}
+                
+                {% if profile.view_priority >= 7 %}
+                <div class="insight-item">
+                    <div class="insight-icon">📸</div>
+                    <div class="insight-text">
+                        <strong>View Seeker:</strong> Clear weather and scenic destinations will be weighted heavily for you.
+                    </div>
+                </div>
+                {% endif %}
+                
+                {% if profile.safety_priority >= 8 %}
+                <div class="insight-item">
+                    <div class="insight-icon">🛡️</div>
+                    <div class="insight-text">
+                        <strong>Safety First:</strong> We'll emphasize lower-risk terrain and current avalanche conditions.
+                    </div>
+                </div>
+                {% endif %}
+                
+                {% if profile.adventure_seeking >= 7 %}
+                <div class="insight-item">
+                    <div class="insight-icon">🏔️</div>
+                    <div class="insight-text">
+                        <strong>Adventure Seeker:</strong> More challenging and remote destinations will rank higher for you.
+                    </div>
+                </div>
+                {% endif %}
+                
+                <div class="insight-item">
+                    <div class="insight-icon">⛰️</div>
+                    <div class="insight-text">
+                        <strong>Terrain Match:</strong> 
+                        {% if profile.terrain_preference == 'coastal_alpine' %}
+                        We'll focus on dramatic fjord skiing and summit-to-sea adventures.
+                        {% elif profile.terrain_preference == 'high_alpine' %}
+                        High elevation glaciated peaks and technical terrain will be prioritized.
+                        {% elif profile.terrain_preference == 'forest_valley' %}
+                        Gentle forest skiing and family-friendly areas will be featured.
+                        {% elif profile.terrain_preference == 'plateau_ridge' %}
+                        Wide open spaces and windswept plateau tours will be highlighted.
+                        {% elif profile.terrain_preference == 'fjord_valley' %}
+                        Protected valley skiing with dramatic surroundings will be emphasized.
+                        {% else %}
+                        We'll provide a balanced mix of all terrain types.
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Next Steps -->
+        <div class="next-steps">
+            <h3>🗺️ Ready for Your Personalized Recommendations?</h3>
+            <p>
+                Now that we know your skiing personality, let's find the perfect destinations 
+                based on current conditions and your location.
+            </p>
+            
+            <div class="steps-preview">
+                <div class="step-preview">
+                    <div class="step-number">1</div>
+                    <div class="step-text">
+                        <strong>Tell us your location</strong><br>
+                        Where are you starting your adventure from?
+                    </div>
+                </div>
+                
+                <div class="step-preview">
+                    <div class="step-number">2</div>
+                    <div class="step-text">
+                        <strong>Set driving preferences</strong><br>
+                        How far are you willing to travel?
+                    </div>
+                </div>
+                
+                <div class="step-preview">
+                    <div class="step-number">3</div>
+                    <div class="step-text">
+                        <strong>Get recommendations</strong><br>
+                        Personalized suggestions with current conditions
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Continue to location page-->
+            <div class="action-buttons">
+                <a href="{{ url_for('location') }}" class="btn btn-primary btn-large"> 
+                    Continue to Location Setup →
+                </a>
+                <button onclick="retakeQuiz()" class="btn btn-outline">
+                    Retake Quiz
+                </button>
+            </div>
+        </div>
+
+        <!-- TEST START -->
+        <div class="action-buttons">
+    <!-- Test different button approaches -->
+    
+    <!-- Original button -->
+    <a href="{{ url_for('location') }}" class="btn btn-primary btn-large">
+        Continue to Location Setup →
+    </a>
+    
+    <!-- Debug button with JavaScript -->
+    <button onclick="testLocationButton()" class="btn btn-secondary">
+        🔧 Test Location Button
+    </button>
+    
+    <!-- Direct link button -->
+    <a href="/location" class="btn btn-outline">
+        📍 Direct Location Link
+    </a>
+    
+    <button onclick="retakeQuiz()" class="btn btn-outline">
+        Retake Quiz
+    </button>
+</div>
+
+<script>
+function testLocationButton() {
+    console.log('Button clicked!');
+    
+    // Test if Flask url_for is working
+    const locationUrl = "{{ url_for('location') }}";
+    console.log('Location URL:', locationUrl);
+    
+    // Check session data
+    console.log('Current page URL:', window.location.href);
+    
+    // Try to navigate
+    alert('Testing navigation to: ' + locationUrl);
+    window.location.href = locationUrl;
+}
+
+// Test on page load
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Quiz results page loaded');
+    console.log('Location URL should be:', "{{ url_for('location') }}");
+});
+</script>
+       <!-- TEST FINISHED --> 
+
+        <!-- Profile Sharing/Saving Options -->
+        <div class="profile-actions">
+            <h4>💾 Save Your Profile</h4>
+            <p>Want to use these preferences again? Save your profile for future trips.</p>
+            
+            <div class="save-options">
+                <button onclick="saveProfile()" class="btn btn-secondary">
+                    Save Profile
+                </button>
+                <button onclick="shareProfile()" class="btn btn-outline btn-small">
+                    Share Results
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Profile Adjustment Modal (hidden by default) -->
+<div id="adjustModal" class="modal hidden">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>🔧 Adjust Your Preferences</h3>
+            <button class="modal-close" onclick="closeAdjustModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p>Fine-tune your preferences before getting recommendations:</p>
+            
+            <div class="adjustment-sliders">
+                <div class="slider-group">
+                    <label for="powderSlider">Fresh Snow Priority: <span id="powderValue">{{ profile.powder_priority }}</span>/10</label>
+                    <input type="range" id="powderSlider" min="0" max="10" value="{{ profile.powder_priority }}" 
+                           oninput="updateSliderValue('powder', this.value)">
+                </div>
+                
+                <div class="slider-group">
+                    <label for="viewSlider">Scenic Views Priority: <span id="viewValue">{{ profile.view_priority }}</span>/10</label>
+                    <input type="range" id="viewSlider" min="0" max="10" value="{{ profile.view_priority }}" 
+                           oninput="updateSliderValue('view', this.value)">
+                </div>
+                
+                <div class="slider-group">
+                    <label for="safetySlider">Safety Priority: <span id="safetyValue">{{ profile.safety_priority }}</span>/10</label>
+                    <input type="range" id="safetySlider" min="0" max="10" value="{{ profile.safety_priority }}" 
+                           oninput="updateSliderValue('safety', this.value)">
+                </div>
+                
+                <div class="slider-group">
+                    <label for="adventureSlider">Adventure Seeking: <span id="adventureValue">{{ profile.adventure_seeking }}</span>/10</label>
+                    <input type="range" id="adventureSlider" min="0" max="10" value="{{ profile.adventure_seeking }}" 
+                           oninput="updateSliderValue('adventure', this.value)">
+                </div>
+            </div>
+        </div>
+        <div class="modal-actions">
+            <button onclick="saveAdjustments()" class="btn btn-primary">Save Changes</button>
+            <button onclick="closeAdjustModal()" class="btn btn-outline">Cancel</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Profile adjustment functionality
+    let adjustedProfile = {
+        powder_priority: {{ profile.powder_priority }},
+        view_priority: {{ profile.view_priority }},
+        safety_priority: {{ profile.safety_priority }},
+        adventure_seeking: {{ profile.adventure_seeking }}
+    };
+    
+    function updateSliderValue(type, value) {
+        document.getElementById(type + 'Value').textContent = value;
+        adjustedProfile[type + '_priority'] = parseInt(value);
+        
+        // Update visual bars in real-time
+        const bar = document.querySelector(`.preference-item:nth-child(${getPreferenceIndex(type)}) .preference-fill`);
+        if (bar) {
+            bar.style.width = (value / 10 * 100) + '%';
+        }
+    }
+    
+    function getPreferenceIndex(type) {
+        const mapping = { powder: 1, view: 2, safety: 3, adventure: 4 };
+        return mapping[type] || 1;
+    }
+    
+    function openAdjustModal() {
+        document.getElementById('adjustModal').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+    
+    function closeAdjustModal() {
+        document.getElementById('adjustModal').classList.add('hidden');
+        document.body.style.overflow = '';
+    }
+    
+    async function saveAdjustments() {
+        try {
+            showLoading('Saving your preferences...');
+            
+            const response = await fetch('/api/profile/update', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(adjustedProfile)
+            });
+            
+            if (response.ok) {
+                showNotification('Preferences updated successfully!', 'success');
+                closeAdjustModal();
+            } else {
+                showNotification('Error saving preferences. Please try again.', 'error');
+            }
+        } catch (error) {
+            showNotification('Network error. Please try again.', 'error');
+        } finally {
+            hideLoading();
+        }
+    }
+    
+    function retakeQuiz() {
+        if (confirm('Are you sure you want to retake the quiz? This will reset your current results.')) {
+            window.location.href = '{{ url_for("quiz") }}';
+        }
+    }
+    
+    async function saveProfile() {
+        try {
+            const profileName = prompt('Enter a name for this profile (optional):') || 'My Ski Profile';
+            
+            showLoading('Saving your profile...');
+            
+            const response = await fetch('/api/profile/save', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    profile_name: profileName,
+                    profile_data: adjustedProfile
+                })
+            });
+            
+            if (response.ok) {
+                showNotification(`Profile "${profileName}" saved successfully!`, 'success');
+            } else {
+                showNotification('Error saving profile. Please try again.', 'error');
+            }
+        } catch (error) {
+            showNotification('Network error. Please try again.', 'error');
+        } finally {
+            hideLoading();
+        }
+    }
+    
+    function shareProfile() {
+        const profileText = `My Ski Touring Personality: {{ profile_summary.split(':')[1].split('\n')[0].strip() if ':' in profile_summary else 'Balanced Ski Tourer' }}
+
+Fresh Snow Priority: {{ profile.powder_priority }}/10
+Scenic Views Priority: {{ profile.view_priority }}/10
+Safety Priority: {{ profile.safety_priority }}/10
+Adventure Seeking: {{ profile.adventure_seeking }}/10
+
+Preferred Terrain: {{ profile.terrain_preference.replace('_', ' ').title() }}
+Risk Tolerance: {{ profile.risk_tolerance.title() }}
+
+Find your ski touring personality at: ${window.location.origin}`;
+
+        if (navigator.share) {
+            navigator.share({
+                title: 'My Ski Touring Personality',
+                text: profileText,
+                url: window.location.origin
+            }).catch(err => console.log('Error sharing:', err));
+        } else {
+            // Fallback to clipboard
+            navigator.clipboard.writeText(profileText).then(() => {
+                showNotification('Profile copied to clipboard!', 'success');
+            }).catch(() => {
+                // Final fallback - show in modal
+                alert(profileText);
+            });
+        }
+    }
+    
+    // Animation on load
+    document.addEventListener('DOMContentLoaded', function() {
+        // Animate preference bars
+        setTimeout(() => {
+            document.querySelectorAll('.preference-fill').forEach((bar, index) => {
+                bar.style.transition = 'width 1s ease-out';
+                bar.style.transitionDelay = (index * 0.2) + 's';
+            });
+        }, 500);
+        
+        // Animate insight items
+        document.querySelectorAll('.insight-item').forEach((item, index) => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                item.style.transition = 'all 0.5s ease-out';
+                item.style.opacity = '1';
+                item.style.transform = 'translateY(0)';
+            }, 1000 + (index * 100));
+        });
+        
+        // Add fine-tune option if advanced user
+        {% if profile.adventure_seeking >= 7 or profile.safety_priority <= 3 %}
+        const profileActions = document.querySelector('.profile-actions');
+        const adjustButton = document.createElement('button');
+        adjustButton.className = 'btn btn-outline btn-small';
+        adjustButton.textContent = '🔧 Fine-tune Preferences';
+        adjustButton.onclick = openAdjustModal;
+        profileActions.querySelector('.save-options').appendChild(adjustButton);
+        {% endif %}
+        
+        // Track completion for analytics
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'quiz_completed', {
+                'personality_type': '{{ profile_summary.split(":")[1].split("\n")[0].strip() if ":" in profile_summary else "Balanced Ski Tourer" }}',
+                'terrain_preference': '{{ profile.terrain_preference }}',
+                'risk_tolerance': '{{ profile.risk_tolerance }}'
+            });
+        }
+    });
+    
+    // Keyboard shortcuts
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter' && !document.getElementById('adjustModal').classList.contains('hidden')) {
+            saveAdjustments();
+        } else if (event.key === 'Escape') {
+            closeAdjustModal();
+        } else if (event.key === 'c' && event.ctrlKey) {
+            event.preventDefault();
+            shareProfile();
+        }
+    });
+    
+    // Add tooltips for preference bars
+    document.querySelectorAll('.preference-item').forEach(item => {
+        const label = item.querySelector('.preference-label').textContent;
+        const value = item.querySelector('.preference-value').textContent;
+        
+        item.setAttribute('title', `${label}: ${value}`);
+        
+        item.addEventListener('mouseenter', function() {
+            const tooltip = document.createElement('div');
+            tooltip.className = 'preference-tooltip';
+            tooltip.textContent = getPreferenceDescription(label, value);
+            item.appendChild(tooltip);
+        });
+        
+        item.addEventListener('mouseleave', function() {
+            const tooltip = item.querySelector('.preference-tooltip');
+            if (tooltip) tooltip.remove();
+        });
+    });
+    
+    function getPreferenceDescription(label, value) {
+        const score = parseInt(value.split('/')[0]);
+        
+        if (label.includes('Fresh Snow')) {
+            if (score >= 8) return 'You prioritize powder above all else!';
+            if (score >= 6) return 'Fresh snow is important to you';
+            if (score >= 4) return 'You appreciate good snow but it\'s not everything';
+            return 'Snow quality is less important than other factors';
+        } else if (label.includes('Scenic Views')) {
+            if (score >= 8) return 'You ski for the incredible mountain views!';
+            if (score >= 6) return 'Clear weather and views matter to you';
+            if (score >= 4) return 'You enjoy good views when available';
+            return 'Views are nice but not your main focus';
+        } else if (label.includes('Safety')) {
+            if (score >= 8) return 'Safety is your top priority - very conservative approach';
+            if (score >= 6) return 'You take safety seriously with calculated risks';
+            if (score >= 4) return 'Balanced approach to mountain risks';
+            return 'You\'re comfortable with higher risk levels';
+        } else if (label.includes('Adventure')) {
+            if (score >= 8) return 'You seek challenging and remote adventures!';
+            if (score >= 6) return 'You enjoy pushing your limits';
+            if (score >= 4) return 'Moderate appetite for adventure';
+            return 'You prefer comfortable, accessible skiing';
+        }
+        
+        return '';
+    }
+</script>
+{% endblock %}

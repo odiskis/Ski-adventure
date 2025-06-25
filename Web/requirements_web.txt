@@ -1,0 +1,110 @@
+# Flask Web Application Requirements
+# Norway Ski Touring Planner - Web Version
+
+# Core Flask Framework
+Flask>=2.3.0,<3.0
+Werkzeug>=2.3.0,<3.0
+Jinja2>=3.1.0,<4.0
+MarkupSafe>=2.1.0,<3.0
+itsdangerous>=2.1.0,<3.0
+click>=8.1.0,<9.0
+
+# HTTP Requests and API Integration  
+requests>=2.31.0,<3.0
+urllib3>=1.26.0,<3.0
+
+# Data Processing
+python-dateutil>=2.8.0,<3.0
+
+# JSON handling (included in Python 3.7+, but explicit for compatibility)
+# json - built into Python
+
+# Form Handling and Validation (optional, for future use)
+# WTForms>=3.0.0,<4.0
+# Flask-WTF>=1.1.0,<2.0
+
+# Session Management (optional, for advanced session handling)
+# Flask-Session>=0.5.0,<1.0
+
+# Caching (optional, for performance optimization)
+# Flask-Caching>=2.0.0,<3.0
+
+# Rate Limiting (optional, for API protection)
+# Flask-Limiter>=3.0.0,<4.0
+
+# CORS handling (if needed for API endpoints)
+# Flask-CORS>=4.0.0,<5.0
+
+# Security enhancements (optional)
+# Flask-Talisman>=1.1.0,<2.0  # Security headers
+# Flask-SeaSurf>=1.1.0,<2.0   # CSRF protection
+
+# Development and Testing Dependencies (optional)
+# pytest>=7.4.0,<8.0
+# pytest-flask>=1.2.0,<2.0
+# pytest-mock>=3.11.0,<4.0
+# coverage>=7.3.0,<8.0
+
+# Production WSGI Server (optional, for production deployment)
+# gunicorn>=21.2.0,<22.0
+# uWSGI>=2.0.21,<3.0
+
+# Logging and Monitoring (optional)
+# flask-log-request-id>=0.10.1,<1.0
+
+# Email sending (for contact forms, optional)
+# Flask-Mail>=0.9.1,<1.0
+
+# Database (if needed for future user accounts, optional)
+# Flask-SQLAlchemy>=3.0.0,<4.0
+# Flask-Migrate>=4.0.0,<5.0
+
+# Environment variable management (optional)
+# python-dotenv>=1.0.0,<2.0
+
+# Minimum Python version: 3.8+
+# Recommended Python version: 3.11+
+
+# CGI Deployment Notes:
+# - Most university servers support Python 3.8+
+# - CGI mode requires only core dependencies
+# - Optional dependencies can be added based on server capabilities
+# - Always test with minimal dependencies first
+
+# Installation Commands:
+# For basic functionality:
+# pip install Flask>=2.3.0 requests>=2.31.0 python-dateutil>=2.8.0
+
+# For full featured installation:
+# pip install -r requirements_web.txt
+
+# For CGI deployment (minimal):
+# pip install --user Flask>=2.3.0 requests>=2.31.0
+
+# Development setup:
+# python -m venv venv
+# source venv/bin/activate  # On Windows: venv\Scripts\activate
+# pip install -r requirements_web.txt
+
+# Production notes:
+# - Pin exact versions for production: Flask==2.3.3 requests==2.31.0
+# - Consider using pip-tools for dependency management
+# - Regular security updates are important for web applications
+
+# File permissions for CGI:
+# - All .cgi files need 755 permissions: chmod 755 *.cgi
+# - Python files need 644 permissions: chmod 644 *.py
+# - Ensure shebang line points to correct Python: #!/usr/bin/env python3
+
+# Server Requirements:
+# - Python 3.8+ with CGI support
+# - Web server with CGI enabled (Apache, Nginx, etc.)
+# - Write permissions for cache/logs directories (if used)
+# - Access to external APIs (HTTP/HTTPS outbound connections)
+
+# Security Considerations:
+# - Keep Flask secret key secure
+# - Validate all user inputs
+# - Use HTTPS in production
+# - Regular dependency updates
+# - Consider rate limiting for public deployment

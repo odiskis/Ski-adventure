@@ -1,0 +1,322 @@
+{% extends "base.html" %}
+
+{% block title %}Ski Touring Quiz - Question {{ question_id + 1 }} of {{ total_questions }}{% endblock %}
+
+{% block description %}Discover your ski touring personality to get personalized recommendations for Norway's best mountains.{% endblock %}
+
+{% block body_class %}quiz-page{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/quiz.css') }}">
+{% endblock %}
+
+{% block loading_text %}Processing your answer...{% endblock %}
+
+{% block content %}
+<div class="quiz-container">
+    <!-- Background with dynamic mountain imagery based on question -->
+    <div class="quiz-background quiz-bg-{{ question_id }}">
+        <svg class="quiz-mountain-svg" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+            {% if question_id == 0 %}
+            <!-- Weather vs Snow question - contrasting elements -->
+            <defs>
+                <linearGradient id="sunnyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#FFD700;stop-opacity:0.3"/>
+                    <stop offset="100%" style="stop-color:#FFA500;stop-opacity:0.1"/>
+                </linearGradient>
+                <linearGradient id="snowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#E6F3FF;stop-opacity:0.3"/>
+                    <stop offset="100%" style="stop-color:#B3D9FF;stop-opacity:0.1"/>
+                </linearGradient>
+            </defs>
+            <path d="M0,600 L300,300 L600,400 L900,200 L1200,350 L1200,800 L0,800 Z" fill="url(#sunnyGrad)"/>
+            <circle cx="200" cy="150" r="50" fill="url(#sunnyGrad)" opacity="0.6"/>
+            <path d="M800,100 L820,120 L840,100 L860,120 L880,100" stroke="#E6F3FF" stroke-width="3" fill="none" opacity="0.8"/>
+            
+            {% elif question_id == 1 %}
+            <!-- Terrain preference - varied mountain silhouettes -->
+            <path d="M0,700 L200,200 L400,350 L600,150 L800,300 L1000,100 L1200,250 L1200,800 L0,800 Z" fill="rgba(255,255,255,0.1)"/>
+            <path d="M0,750 L300,400 L600,500 L900,300 L1200,400 L1200,800 L0,800 Z" fill="rgba(255,255,255,0.05)"/>
+            
+            {% elif question_id == 2 %}
+            <!-- Risk vs Reward - steeper, more dramatic peaks -->
+            <path d="M0,800 L150,200 L300,600 L450,100 L600,500 L750,50 L900,400 L1050,150 L1200,300 L1200,800 Z" fill="rgba(255,255,255,0.12)"/>
+            
+            {% elif question_id == 3 %}
+            <!-- Summit vs Skiing - prominent peak in center -->
+            <path d="M0,800 L200,400 L400,600 L600,100 L800,600 L1000,400 L1200,500 L1200,800 Z" fill="rgba(255,255,255,0.1)"/>
+            <circle cx="600" cy="80" r="20" fill="rgba(255,255,255,0.3)"/>
+            
+            {% elif question_id == 4 %}
+            <!-- Social vs Solo - multiple peaks vs single peak -->
+            <path d="M0,800 L100,300 L200,400 L300,250 L400,350 L500,200 L600,300 L700,150 L800,250 L900,100 L1000,200 L1100,300 L1200,250 L1200,800 Z" fill="rgba(255,255,255,0.08)"/>
+            
+            {% elif question_id == 5 %}
+            <!-- Weather adaptation - stormy clouds -->
+            <path d="M0,650 L300,350 L600,450 L900,250 L1200,400 L1200,800 L0,800 Z" fill="rgba(255,255,255,0.1)"/>
+            <ellipse cx="300" cy="200" rx="80" ry="40" fill="rgba(255,255,255,0.2)"/>
+            <ellipse cx="600" cy="150" rx="100" ry="50" fill="rgba(255,255,255,0.15)"/>
+            <ellipse cx="900" cy="180" rx="90" ry="45" fill="rgba(255,255,255,0.18)"/>
+            
+            {% else %}
+            <!-- Access vs Remoteness - winding path -->
+            <path d="M0,800 L200,500 L400,600 L600,300 L800,450 L1000,200 L1200,350 L1200,800 Z" fill="rgba(255,255,255,0.1)"/>
+            <path d="M50,750 Q200,650 400,700 T800,600 T1150,650" stroke="rgba(255,255,255,0.3)" stroke-width="4" fill="none"/>
+            {% endif %}
+        </svg>
+    </div>
+    
+    <!-- Quiz Content -->
+    <div class="quiz-content container">
+        <!-- Progress Bar -->
+        <div class="quiz-header">
+            <div class="progress-container">
+                <div class="progress">
+                    <div class="progress-bar" style="width: {{ progress }}%"></div>
+                </div>
+                <div class="progress-text">
+                    <span class="current-step">Question {{ question_id + 1 }}</span>
+                    <span class="total-steps">of {{ total_questions }}</span>
+                </div>
+            </div>
+            
+            <!-- Back button (except for first question) -->
+            {% if question_id > 0 %}
+            <a href="{{ url_for('quiz_question', question_id=question_id-1) }}" class="btn-back">
+                ← Previous
+            </a>
+            {% endif %}
+        </div>
+        
+        <!-- Question Card -->
+        <div class="question-card">
+            <div class="question-header">
+                <h1 class="question-title">{{ question.question }}</h1>
+                <p class="question-description">{{ question.description }}</p>
+            </div>
+            
+            <!-- Answer Options -->
+            <div class="answer-options">
+                {% for i in range(question.answers|length) %}
+                {% set answer = question.answers[i] %}
+                <button class="answer-option" 
+                        data-answer-index="{{ i }}"
+                        onclick="selectAnswer({{ i }})">
+                    <div class="answer-content">
+                        <div class="answer-icon">
+                            {% if question_id == 0 %}
+                                {% if i == 0 %}☀️
+                                {% elif i == 1 %}❄️
+                                {% else %}🌤️{% endif %}
+                            {% elif question_id == 1 %}
+                                {% if i == 0 %}🌊
+                                {% elif i == 1 %}🏔️
+                                {% elif i == 2 %}🌲
+                                {% else %}🌬️{% endif %}
+                            {% elif question_id == 2 %}
+                                {% if i == 0 %}🔒
+                                {% elif i == 1 %}⚖️
+                                {% else %}🎯{% endif %}
+                            {% elif question_id == 3 %}
+                                {% if i == 0 %}🏔️
+                                {% elif i == 1 %}🎿
+                                {% elif i == 2 %}📸
+                                {% else %}🏃{% endif %}
+                            {% elif question_id == 4 %}
+                                {% if i == 0 %}🏔️
+                                {% elif i == 1 %}👥
+                                {% else %}👨‍👩‍👧‍👦{% endif %}
+                            {% elif question_id == 5 %}
+                                {% if i == 0 %}🔄
+                                {% elif i == 1 %}🏠
+                                {% else %}⚡{% endif %}
+                            {% else %}
+                                {% if i == 0 %}🚗
+                                {% elif i == 1 %}🥾
+                                {% else %}🚁{% endif %}
+                            {% endif %}
+                        </div>
+                        <div class="answer-text">
+                            <span class="answer-main">{{ answer.text }}</span>
+                        </div>
+                    </div>
+                    <div class="answer-selection">
+                        <div class="selection-indicator"></div>
+                    </div>
+                </button>
+                {% endfor %}
+            </div>
+            
+            <!-- Next Button -->
+            <div class="quiz-navigation">
+                <button id="nextButton" class="btn btn-primary btn-large" 
+                        onclick="submitAnswer()" disabled>
+                    {% if question_id + 1 >= total_questions %}
+                        Complete Quiz →
+                    {% else %}
+                        Next Question →
+                    {% endif %}
+                </button>
+            </div>
+        </div>
+        
+        <!-- Question Context/Hints -->
+        <div class="question-context">
+            {% if question_id == 0 %}
+            <p class="context-hint">💡 This helps us understand if you prioritize powder conditions or clear weather for views.</p>
+            {% elif question_id == 1 %}
+            <p class="context-hint">💡 Different terrain types offer unique experiences - from dramatic coastlines to peaceful forests.</p>
+            {% elif question_id == 2 %}
+            <p class="context-hint">💡 Your risk tolerance helps us recommend appropriate terrain and conditions.</p>
+            {% elif question_id == 3 %}
+            <p class="context-hint">💡 Understanding your main motivation helps us find tours that match your goals.</p>
+            {% elif question_id == 4 %}
+            <p class="context-hint">💡 This influences whether we recommend popular areas or more remote locations.</p>
+            {% elif question_id == 5 %}
+            <p class="context_hint">💡 Mountain weather can change quickly - knowing your adaptation style is important.</p>
+            {% else %}
+            <p class="context-hint">💡 Access preferences help us balance convenience with adventure in our recommendations.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Safety reminder for mountain-related questions -->
+{% if question_id in [2, 5] %}
+<div class="safety-reminder">
+    <div class="container">
+        <div class="safety-content">
+            <span class="safety-icon">⚠️</span>
+            <span class="safety-text">
+                Remember: Mountain conditions can change rapidly. Always check current avalanche and weather conditions before heading out.
+            </span>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/quiz.js') }}"></script>
+<script>
+    let selectedAnswer = null;
+    const questionId = {{ question_id }};
+    const totalQuestions = {{ total_questions }};
+    
+    function selectAnswer(answerIndex) {
+        // Remove previous selection
+        document.querySelectorAll('.answer-option').forEach(option => {
+            option.classList.remove('selected');
+        });
+        
+        // Add selection to clicked option
+        const selectedOption = document.querySelector(`[data-answer-index="${answerIndex}"]`);
+        selectedOption.classList.add('selected');
+        
+        // Store selected answer
+        selectedAnswer = answerIndex;
+        
+        // Enable next button
+        document.getElementById('nextButton').disabled = false;
+        
+        // Announce to screen readers
+        announceToScreenReader(`Selected: ${selectedOption.querySelector('.answer-text').textContent}`);
+        
+        // Add subtle animation
+        selectedOption.style.transform = 'scale(1.02)';
+        setTimeout(() => {
+            selectedOption.style.transform = '';
+        }, 200);
+    }
+    
+    async function submitAnswer() {
+        if (selectedAnswer === null) {
+            showNotification('Please select an answer before continuing.', 'warning');
+            return;
+        }
+        
+        try {
+            showLoading('Processing your answer...');
+            
+            const response = await fetch('{{ url_for("quiz_answer") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    question_id: questionId,
+                    answer_index: selectedAnswer
+                })
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                // Navigate to next question or results
+                window.location.href = data.redirect;
+            } else {
+                hideLoading();
+                showNotification(data.error || 'An error occurred. Please try again.', 'error');
+            }
+            
+        } catch (error) {
+            hideLoading();
+            console.error('Error submitting answer:', error);
+            showNotification('Network error. Please check your connection and try again.', 'error');
+        }
+    }
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', function(event) {
+        const answers = document.querySelectorAll('.answer-option');
+        
+        if (event.key >= '1' && event.key <= answers.length.toString()) {
+            const answerIndex = parseInt(event.key) - 1;
+            selectAnswer(answerIndex);
+        } else if (event.key === 'Enter' && selectedAnswer !== null) {
+            submitAnswer();
+        } else if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+            event.preventDefault();
+            const currentSelected = document.querySelector('.answer-option.selected');
+            let newIndex = 0;
+            
+            if (currentSelected) {
+                const currentIndex = parseInt(currentSelected.getAttribute('data-answer-index'));
+                if (event.key === 'ArrowDown') {
+                    newIndex = (currentIndex + 1) % answers.length;
+                } else {
+                    newIndex = (currentIndex - 1 + answers.length) % answers.length;
+                }
+            }
+            
+            selectAnswer(newIndex);
+            answers[newIndex].focus();
+        }
+    });
+    
+    // Add accessibility attributes
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.answer-option').forEach((option, index) => {
+            option.setAttribute('role', 'button');
+            option.setAttribute('tabindex', '0');
+            option.setAttribute('aria-label', `Answer option ${index + 1}`);
+        });
+        
+        // Focus first answer for keyboard users
+        document.querySelector('.answer-option').focus();
+        
+        // Add animation delays for visual appeal
+        document.querySelectorAll('.answer-option').forEach((option, index) => {
+            option.style.animationDelay = `${index * 0.1}s`;
+        });
+    });
+    
+    // Track quiz progress for analytics (if needed)
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'quiz_question_view', {
+            'question_number': questionId + 1,
+            'question_id': '{{ question.id }}'
+        });
+    }
+</script>
+{% endblock %}

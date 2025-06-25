@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+
+{% block title %}Error - Norway Ski Touring Planner{% endblock %}
+
+{% block description %}An error occurred while processing your request. Please try again or contact support.{% endblock %}
+
+{% block body_class %}error-page{% endblock %}
+
+{% block content %}
+<div class="error-container">
+    <div class="error-content">
+        <div class="error-icon">🎿💥</div>
+        <h1 class="error-title">Oops! Something went wrong</h1>
+        <p class="error-message">{{ error or "An unexpected error occurred while processing your request." }}</p>
+        
+        <div class="error-actions">
+            <a href="{{ url_for('index') }}" class="btn btn-primary">
+                🏠 Back to Home
+            </a>
+            <button onclick="window.history.back()" class="btn btn-outline">
+                ← Go Back
+            </button>
+            <button onclick="window.location.reload()" class="btn btn-outline">
+                🔄 Try Again
+            </button>
+        </div>
+        
+        <div class="error-help">
+            <h3>Need Help?</h3>
+            <ul class="help-list">
+                <li><a href="{{ url_for('quiz') }}">Start a new trip planning session</a></li>
+                <li><a href="{{ url_for('about') }}">Learn more about our service</a></li>
+                <li><a href="mailto:support@skitouring.no">Contact support</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<style>
+.error-page {
+    background: var(--gradient-primary);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.error-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: var(--spacing-xl);
+}
+
+.error-content {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-xxl);
+    text-align: center;
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: var(--shadow-xl);
+}
+
+.error-icon {
+    font-size: 4rem;
+    margin-bottom: var(--spacing-lg);
+    display: block;
+}
+
+.error-title {
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    color: var(--dark-gray);
+    margin-bottom: var(--spacing-md);
+    font-weight: var(--font-weight-bold);
+}
+
+.error-message {
+    font-size: 1.1rem;
+    color: var(--medium-gray);
+    line-height: 1.6;
+    margin-bottom: var(--spacing-xl);
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.error-actions {
+    display: flex;
+    gap: var(--spacing-md);
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: var(--spacing-xl);
+}
+
+.error-help {
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    padding-top: var(--spacing-lg);
+    margin-top: var(--spacing-lg);
+}
+
+.error-help h3 {
+    color: var(--dark-gray);
+    margin-bottom: var(--spacing-md);
+    font-size: 1.2rem;
+}
+
+.help-list {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.help-list li {
+    margin-bottom: var(--spacing-sm);
+}
+
+.help-list a {
+    color: var(--accent-orange);
+    text-decoration: none;
+    font-weight: var(--font-weight-medium);
+}
+
+.help-list a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .error-content {
+        padding: var(--spacing-lg);
+        margin: var(--spacing-md);
+    }
+    
+    .error-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .error-actions .btn {
+        width: 100%;
+        max-width: 250px;
+    }
+    
+    .help-list {
+        text-align: center;
+    }
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Track error for analytics if available
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'error_page_view', {
+            'error_message': '{{ error | replace("'", "\\'") | replace('"', '\\"') }}'
+        });
+    }
+    
+    // Auto-redirect after 30 seconds of inactivity
+    let redirectTimer = setTimeout(() => {
+        if (confirm('Would you like to return to the home page?')) {
+            window.location.href = '{{ url_for("index") }}';
+        }
+    }, 30000);
+    
+    // Cancel auto-redirect if user interacts with page
+    document.addEventListener('click', () => {
+        clearTimeout(redirectTimer);
+    });
+    
+    document.addEventListener('keydown', () => {
+        clearTimeout(redirectTimer);
+    });
+</script>
+{% endblock %}

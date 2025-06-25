@@ -1,0 +1,620 @@
+{% extends "base.html" %}
+
+{% block title %}Your Personalized Ski Touring Recommendations{% endblock %}
+
+{% block description %}Discover the best ski touring destinations for your preferences and current conditions.{% endblock %}
+
+{% block body_class %}recommendations-page{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/recommendations.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="recommendations-container">
+    <!-- Header Section -->
+    <div class="recommendations-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="header-text">
+                    <h1 class="page-title">🎿 Your Perfect Ski Adventures</h1>
+                    <p class="page-subtitle">
+                        Based on your preferences and current conditions, here are the best ski touring destinations for you.
+                    </p>
+                    
+                    <div class="search-summary">
+                        <div class="summary-item">
+                            <span class="summary-icon">📍</span>
+                            <span class="summary-text">From {{ search_info.starting_location.name }}</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-icon">🚗</span>
+                            <span class="summary-text">Within {{ search_info.max_driving_hours }}h drive</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-icon">📊</span>
+                            <span class="summary-text">{{ recommendations.total_regions if recommendations.type == 'regional' else search_info.total_analyzed }} destinations analyzed</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="header-actions">
+                    <button onclick="adjustPreferences()" class="btn btn-outline">
+                        🔧 Adjust Preferences
+                    </button>
+                    <button onclick="changeLocation()" class="btn btn-outline">
+                        📍 Change Location
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- User Profile Summary -->
+    <div class="profile-reminder">
+        <div class="container">
+            <div class="profile-card">
+                <div class="profile-icon">{{ '🎯' if user_profile.adventure_seeking >= 7 else '🛡️' if user_profile.safety_priority >= 8 else '❄️' if user_profile.powder_priority >= 7 else '📸' if user_profile.view_priority >= 7 else '🎿' }}</div>
+                <div class="profile-text">
+                    <strong>Your Profile:</strong>
+                    {{ 'Adventure Seeker' if user_profile.adventure_seeking >= 7 else 'Safety-First Tourer' if user_profile.safety_priority >= 8 else 'Powder Hunter' if user_profile.powder_priority >= 7 else 'View Seeker' if user_profile.view_priority >= 7 else 'Balanced Tourer' }}
+                    • {{ user_profile.terrain_preference.replace('_', ' ').title() }}
+                    • {{ user_profile.risk_tolerance.title() }} Risk
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Recommendations Content -->
+    <div class="recommendations-content">
+        <div class="container">
+            
+            {% if recommendations.type == 'regional' %}
+            <!-- Regional Recommendations Display -->
+            <div class="regional-recommendations">
+                <div class="section-header">
+                    <h2>🏔️ Best Ski Regions for You</h2>
+                    <p class="methodology-note">
+                        Using {{ recommendations.methodology }} across {{ recommendations.weather_grid_summary.total_points }} weather monitoring points
+                    </p>
+                </div>
+                
+                {% for region in recommendations.regions %}
+                <div class="region-card">
+                    <div class="region-header">
+                        <div class="region-info">
+                            <h3 class="region-name">
+                                {% if region.name == 'Lyngen' %}🌊
+                                {% elif region.name == 'Lofoten' %}🏝️
+                                {% elif region.name == 'Jotunheimen' %}🏔️
+                                {% elif region.name == 'Hemsedal' %}🌲
+                                {% elif region.name == 'Sognefjord' %}🏞️
+                                {% elif region.name == 'Narvik' %}❄️
+                                {% else %}⛰️{% endif %}
+                                {{ region.name }}
+                            </h3>
+                            <div class="region-meta">
+                                <span class="region-score">{{ region.score }}/100</span>
+                                <span class="weather-status">{{ region.weather_summary }}</span>
+                                <span class="accessibility">{{ region.accessibility }}</span>
+                            </div>
+                        </div>
+                        <div class="region-actions">
+                            <button onclick="toggleRegion('region-{{ loop.index0 }}')" class="btn btn-outline btn-small">
+                                View Tours
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="region-summary">
+                        <p class="why-recommended">{{ region.why_recommended }}</p>
+                        <div class="region-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">Weather Score:</span>
+                                <span class="stat-value">{{ region.weather_score }}/100</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Tours Available:</span>
+                                <span class="stat-value">{{ region.tour_count }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="region-{{ loop.index0 }}" class="region-tours collapsed">
+                        {% for tour in region.tours %}
+                        <div class="tour-card">
+                            <div class="tour-header">
+                                <h4 class="tour-name">{{ tour.name }}</h4>
+                                <div class="tour-score">{{ tour.scores.total }}/100</div>
+                            </div>
+                            
+                            <div class="tour-content">
+                                <div class="tour-description">
+                                    <p>{{ tour.description }}</p>
+                                </div>
+                                
+                                <div class="tour-details">
+                                    <div class="detail-row">
+                                        <div class="detail-item">
+                                            <span class="detail-icon">🎿</span>
+                                            <span class="detail-text">{{ tour.difficulty }} • {{ tour.elevation_range }}</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <span class="detail-icon">⏱️</span>
+                                            <span class="detail-text">{{ tour.duration }}</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <span class="detail-icon">🚗</span>
+                                            <span class="detail-text">{{ "%.0f"|format(tour.distance_km) }}km</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <span class="detail-icon">🅿️</span>
+                                            <span class="detail-text">{{ tour.approach }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="tour-conditions">
+                                    <div class="conditions-summary">{{ tour.summary }}</div>
+                                    
+                                    <div class="score-breakdown">
+                                        <div class="score-item">
+                                            <span class="score-label">Snow:</span>
+                                            <div class="score-bar">
+                                                <div class="score-fill" style="width: {{ tour.scores.snow }}%"></div>
+                                            </div>
+                                            <span class="score-value">{{ tour.scores.snow }}</span>
+                                        </div>
+                                        
+                                        <div class="score-item">
+                                            <span class="score-label">Weather:</span>
+                                            <div class="score-bar">
+                                                <div class="score-fill" style="width: {{ tour.scores.weather }}%"></div>
+                                            </div>
+                                            <span class="score-value">{{ tour.scores.weather }}</span>
+                                        </div>
+                                        
+                                        {% if tour.scores.avalanche %}
+                                        <div class="score-item">
+                                            <span class="score-label">Safety:</span>
+                                            <div class="score-bar">
+                                                <div class="score-fill" style="width: {{ tour.scores.avalanche }}%"></div>
+                                            </div>
+                                            <span class="score-value">{{ tour.scores.avalanche }}</span>
+                                        </div>
+                                        {% endif %}
+                                        
+                                        <div class="score-item">
+                                            <span class="score-label">Views:</span>
+                                            <div class="score-bar">
+                                                <div class="score-fill" style="width: {{ tour.scores.views }}%"></div>
+                                            </div>
+                                            <span class="score-value">{{ tour.scores.views }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="tour-features">
+                                    {% for feature in tour.features %}
+                                    <span class="feature-tag">{{ feature.replace('_', ' ').title() }}</span>
+                                    {% endfor %}
+                                </div>
+                                
+                                <div class="tour-actions">
+                                    <button onclick="getDirections('{{ tour.name }}')" class="btn btn-secondary btn-small">
+                                        🗺️ Get Directions
+                                    </button>
+                                    <button onclick="shareTour('{{ tour.name }}')" class="btn btn-outline btn-small">
+                                        📤 Share
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            {% else %}
+            <!-- Original Point-Based Recommendations -->
+            <div class="point-recommendations">
+                <div class="section-header">
+                    <h2>🎯 Your Top Ski Destinations</h2>
+                    <p class="methodology-note">{{ recommendations.methodology }} • {{ recommendations.scoring_explanation }}</p>
+                </div>
+                
+                {% if recommendations.within_range %}
+                <div class="recommendations-section">
+                    <h3 class="section-title">✅ Within Your Travel Range</h3>
+                    
+                    {% for recommendation in recommendations.within_range %}
+                    <div class="recommendation-card{% if loop.index <= 3 %} featured{% endif %}">
+                        <div class="card-header">
+                            <div class="recommendation-rank">{{ loop.index }}</div>
+                            <div class="recommendation-info">
+                                <h4 class="recommendation-name">
+                                    {% if recommendation.terrain_type == 'Coastal Alpine' %}🌊
+                                    {% elif recommendation.terrain_type == 'High Alpine' %}🏔️
+                                    {% elif recommendation.terrain_type == 'Forest Valley' %}🌲
+                                    {% elif recommendation.terrain_type == 'Plateau Ridge' %}🌬️
+                                    {% elif recommendation.terrain_type == 'Fjord Valley' %}🏞️
+                                    {% else %}⛰️{% endif %}
+                                    {{ recommendation.name }}
+                                </h4>
+                                <div class="recommendation-meta">
+                                    <span class="difficulty">{{ recommendation.difficulty }}</span>
+                                    <span class="terrain">{{ recommendation.terrain_type }}</span>
+                                    <span class="elevation">{{ recommendation.elevation_range }}</span>
+                                </div>
+                            </div>
+                            <div class="recommendation-score">
+                                <div class="score-number">{{ recommendation.scores.total }}</div>
+                                <div class="score-label">Score</div>
+                            </div>
+                        </div>
+                        
+                        <div class="card-content">
+                            <div class="recommendation-summary">{{ recommendation.summary }}</div>
+                            
+                            <div class="recommendation-description">
+                                <p>{{ recommendation.description }}</p>
+                            </div>
+                            
+                            <div class="score-breakdown">
+                                <div class="score-item">
+                                    <span class="score-label">Snow:</span>
+                                    <div class="score-bar">
+                                        <div class="score-fill" style="width: {{ recommendation.scores.snow }}%"></div>
+                                    </div>
+                                    <span class="score-value">{{ recommendation.scores.snow }}</span>
+                                </div>
+                                
+                                <div class="score-item">
+                                    <span class="score-label">Weather:</span>
+                                    <div class="score-bar">
+                                        <div class="score-fill" style="width: {{ recommendation.scores.weather }}%"></div>
+                                    </div>
+                                    <span class="score-value">{{ recommendation.scores.weather }}</span>
+                                </div>
+                                
+                                {% if recommendation.scores.avalanche %}
+                                <div class="score-item">
+                                    <span class="score-label">Safety:</span>
+                                    <div class="score-bar">
+                                        <div class="score-fill" style="width: {{ recommendation.scores.avalanche }}%"></div>
+                                    </div>
+                                    <span class="score-value">{{ recommendation.scores.avalanche }}</span>
+                                </div>
+                                {% else %}
+                                <div class="score-item">
+                                    <span class="score-label">Safety:</span>
+                                    <span class="score-note">No avalanche data</span>
+                                </div>
+                                {% endif %}
+                                
+                                <div class="score-item">
+                                    <span class="score-label">Views:</span>
+                                    <div class="score-bar">
+                                        <div class="score-fill" style="width: {{ recommendation.scores.views }}%"></div>
+                                    </div>
+                                    <span class="score-value">{{ recommendation.scores.views }}</span>
+                                </div>
+                            </div>
+                            
+                            <div class="recommendation-details">
+                                <div class="detail-grid">
+                                    <div class="detail-item">
+                                        <span class="detail-icon">📅</span>
+                                        <span class="detail-text">Season: {{ recommendation.season }}</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-icon">🅿️</span>
+                                        <span class="detail-text">Access: {{ recommendation.access }}</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-icon">⚠️</span>
+                                        <span class="detail-text">Avalanche: {{ recommendation.avalanche_exposure }}</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-icon">🎯</span>
+                                        <span class="detail-text">Technical: {{ recommendation.technical_level }}/10</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="recommendation-features">
+                                {% for feature in recommendation.features %}
+                                <span class="feature-tag">{{ feature.replace('_', ' ').title() }}</span>
+                                {% endfor %}
+                            </div>
+                            
+                            <div class="recommendation-actions">
+                                <button onclick="getDirections('{{ recommendation.name }}')" class="btn btn-secondary">
+                                    🗺️ Get Directions
+                                </button>
+                                <button onclick="sharerecommendation('{{ recommendation.name }}')" class="btn btn-outline">
+                                    📤 Share
+                                </button>
+                                <button onclick="saveForLater('{{ recommendation.name }}')" class="btn btn-outline">
+                                    ⭐ Save for Later
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+                {% if recommendations.out_of_range %}
+                <div class="recommendations-section">
+                    <h3 class="section-title">🚗 Worth the Extra Drive</h3>
+                    <p class="section-description">These destinations are outside your normal range but have exceptional conditions.</p>
+                    
+                    {% for recommendation in recommendations.out_of_range %}
+                    <div class="recommendation-card out-of-range">
+                        <!-- Similar structure to within-range cards -->
+                        <div class="card-header">
+                            <div class="recommendation-info">
+                                <h4 class="recommendation-name">{{ recommendation.name }}</h4>
+                                <div class="recommendation-meta">
+                                    <span class="difficulty">{{ recommendation.difficulty }}</span>
+                                    <span class="terrain">{{ recommendation.terrain_type }}</span>
+                                </div>
+                            </div>
+                            <div class="recommendation-score">
+                                <div class="score-number">{{ recommendation.scores.total }}</div>
+                                <div class="score-label">Score</div>
+                            </div>
+                        </div>
+                        
+                        <div class="card-content">
+                            <div class="recommendation-summary">{{ recommendation.summary }}</div>
+                            <div class="extra-drive-note">
+                                <span class="note-icon">ℹ️</span>
+                                This destination requires extra travel but has exceptional conditions for your preferences.
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            {% endif %}
+            
+        </div>
+    </div>
+    
+    <!-- Safety Reminder -->
+    <div class="safety-reminder-section">
+        <div class="container">
+            <div class="safety-reminder">
+                <div class="safety-icon">⚠️</div>
+                <div class="safety-content">
+                    <h3>Important Safety Reminders</h3>
+                    <ul class="safety-list">
+                        <li><strong>Check current conditions:</strong> Always verify weather, snow, and avalanche conditions before departure at <a href="https://varsom.no" target="_blank">Varsom.no</a></li>
+                        <li><strong>Tell someone your plans:</strong> Share your route, destination, and expected return time</li>
+                        <li><strong>Carry safety equipment:</strong> Avalanche transceiver, probe, shovel, and first aid kit</li>
+                        <li><strong>Know your limits:</strong> Choose terrain appropriate for your skill level and conditions</li>
+                    </ul>
+                </div>
+                <div class="safety-actions">
+                    <a href="https://varsom.no" target="_blank" class="btn btn-outline">
+                        Check Avalanche Warnings
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Actions Section -->
+    <div class="actions-section">
+        <div class="container">
+            <div class="actions-content">
+                <h3>🔄 Want Different Recommendations?</h3>
+                <div class="action-buttons">
+                    <button onclick="adjustPreferences()" class="btn btn-primary">
+                        🔧 Adjust Your Preferences
+                    </button>
+                    <button onclick="changeLocation()" class="btn btn-secondary">
+                        📍 Try Different Location
+                    </button>
+                    <a href="{{ url_for('quiz') }}" class="btn btn-outline">
+                        🎿 Start Over
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Preference Adjustment Modal -->
+<div id="preferencesModal" class="modal hidden">
+    <div class="modal-content large">
+        <div class="modal-header">
+            <h3>🔧 Adjust Your Preferences</h3>
+            <button class="modal-close" onclick="closePreferencesModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="preference-adjustments">
+                <div class="adjustment-section">
+                    <h4>Travel Distance</h4>
+                    <div class="travel-options">
+                        {% for hours in [1, 2, 3, 4, 5] %}
+                        <label class="travel-option">
+                            <input type="radio" name="modal_max_hours" value="{{ hours }}" 
+                                   {% if hours == search_info.max_driving_hours %}checked{% endif %}>
+                            <span class="option-text">{{ hours }} hour{{ 's' if hours > 1 else '' }}</span>
+                        </label>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <div class="adjustment-section">
+                    <h4>Focus Areas</h4>
+                    <div class="focus-toggles">
+                        <label class="toggle-option">
+                            <input type="checkbox" name="focus_powder" {% if user_profile.powder_priority >= 7 %}checked{% endif %}>
+                            <span class="toggle-text">❄️ Prioritize Fresh Snow</span>
+                        </label>
+                        <label class="toggle-option">
+                            <input type="checkbox" name="focus_views" {% if user_profile.view_priority >= 7 %}checked{% endif %}>
+                            <span class="toggle-text">📸 Prioritize Scenic Views</span>
+                        </label>
+                        <label class="toggle-option">
+                            <input type="checkbox" name="focus_safety" {% if user_profile.safety_priority >= 8 %}checked{% endif %}>
+                            <span class="toggle-text">🛡️ Prioritize Safety</span>
+                        </label>
+                        <label class="toggle-option">
+                            <input type="checkbox" name="focus_adventure" {% if user_profile.adventure_seeking >= 7 %}checked{% endif %}>
+                            <span class="toggle-text">🏔️ Prioritize Adventure</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-actions">
+            <button onclick="applyPreferences()" class="btn btn-primary">Apply Changes</button>
+            <button onclick="closePreferencesModal()" class="btn btn-outline">Cancel</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/recommendations.js') }}"></script>
+<script>
+    // Toggle region tours display
+    function toggleRegion(regionId) {
+        const element = document.getElementById(regionId);
+        const button = document.querySelector(`[onclick="toggleRegion('${regionId}')"]`);
+        
+        if (element.classList.contains('collapsed')) {
+            element.classList.remove('collapsed');
+            button.textContent = 'Hide Tours';
+        } else {
+            element.classList.add('collapsed');
+            button.textContent = 'View Tours';
+        }
+    }
+    
+    // Preference adjustment modal
+    function adjustPreferences() {
+        document.getElementById('preferencesModal').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+    
+    function closePreferencesModal() {
+        document.getElementById('preferencesModal').classList.add('hidden');
+        document.body.style.overflow = '';
+    }
+    
+    async function applyPreferences() {
+        try {
+            showLoading('Updating recommendations...');
+            
+            const formData = new FormData();
+            formData.append('max_hours', document.querySelector('input[name="modal_max_hours"]:checked').value);
+            formData.append('focus_powder', document.querySelector('input[name="focus_powder"]').checked);
+            formData.append('focus_views', document.querySelector('input[name="focus_views"]').checked);
+            formData.append('focus_safety', document.querySelector('input[name="focus_safety"]').checked);
+            formData.append('focus_adventure', document.querySelector('input[name="focus_adventure"]').checked);
+            
+            const response = await fetch('/api/recommendations/refresh', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                window.location.href = data.redirect;
+            } else {
+                showNotification(data.error || 'Error updating preferences', 'error');
+            }
+            
+        } catch (error) {
+            showNotification('Network error. Please try again.', 'error');
+        } finally {
+            hideLoading();
+        }
+    }
+    
+    function changeLocation() {
+        window.location.href = '{{ url_for("location") }}';
+    }
+    
+    function getDirections(destinationName) {
+        // Open Google Maps with directions
+        const encodedName = encodeURIComponent(destinationName + ', Norway');
+        const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodedName}`;
+        window.open(mapsUrl, '_blank');
+    }
+    
+    function shareTour(tourName) {
+        const shareText = `Check out this ski touring recommendation: ${tourName}\n\nFind your perfect ski adventure at: ${window.location.origin}`;
+        
+        if (navigator.share) {
+            navigator.share({
+                title: `Ski Tour: ${tourName}`,
+                text: shareText,
+                url: window.location.href
+            });
+        } else {
+            navigator.clipboard.writeText(shareText).then(() => {
+                showNotification('Tour details copied to clipboard!', 'success');
+            });
+        }
+    }
+    
+    function saveForLater(tourName) {
+        // Save to localStorage for now (could be enhanced with user accounts)
+        const saved = JSON.parse(localStorage.getItem('savedTours') || '[]');
+        if (!saved.includes(tourName)) {
+            saved.push(tourName);
+            localStorage.setItem('savedTours', JSON.stringify(saved));
+            showNotification(`${tourName} saved for later!`, 'success');
+        } else {
+            showNotification(`${tourName} is already in your saved tours.`, 'info');
+        }
+    }
+    
+    // Animation on load
+    document.addEventListener('DOMContentLoaded', function() {
+        // Animate cards in sequence
+        const cards = document.querySelectorAll('.recommendation-card, .region-card');
+        cards.forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                card.style.transition = 'all 0.5s ease-out';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, index * 100);
+        });
+        
+        // Animate score bars
+        setTimeout(() => {
+            document.querySelectorAll('.score-fill').forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.transition = 'width 1s ease-out';
+                    bar.style.width = width;
+                }, 500);
+            });
+        }, 1000);
+        
+        // Track page view for analytics
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'recommendations_view', {
+                'results_type': '{{ recommendations.type }}',
+                'total_results': {{ recommendations.total_regions if recommendations.type == 'regional' else recommendations.within_range|length }},
+                'starting_location': '{{ search_info.starting_location.name }}'
+            });
+        }
+    });
+</script>
+{% endblock %}

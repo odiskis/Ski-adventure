@@ -1,0 +1,139 @@
+{
+  "search_info": {
+    "starting_location": {
+      "name": "Trondheim",
+      "lat": 63.43048,
+      "lon": 10.39506,
+      "municipality": "",
+      "county": "",
+      "place_type": "By",
+      "original_search": "Trondheim"
+    },
+    "max_driving_hours": 3,
+    "search_timestamp": "2025-06-14T22:00:00.898910",
+    "total_destinations_found": 5
+  },
+  "recommendations": [
+    {
+      "destination": "Trondheim",
+      "type": "city",
+      "coordinates": {
+        "lat": 63.4305,
+        "lon": 10.3951
+      },
+      "distance_km": 0.0029838793755002134,
+      "driving_time_hours": 4.262684822143162e-05,
+      "weather_score": 100,
+      "total_score": 99.99973476627774,
+      "within_range": true,
+      "weather_summary": {
+        "current_temp": 23.0,
+        "current_humidity": 53.4,
+        "current_wind_speed": 1.5,
+        "avg_temp_24h": 20.712500000000002,
+        "max_temp_24h": 24.8,
+        "min_temp_24h": 16.8,
+        "total_precipitation_24h": 0.0,
+        "precipitation_hours": 0
+      },
+      "readable_summary": "🚗 0km (0.0h drive) • 🌡️ 20.7°C • (16.8-24.8°C) • ☀️ No rain • 🍃 Light breeze"
+    },
+    {
+      "destination": "Molde",
+      "type": "city",
+      "coordinates": {
+        "lat": 62.7378,
+        "lon": 7.1618
+      },
+      "distance_km": 180.02790177921855,
+      "driving_time_hours": 2.5718271682745506,
+      "weather_score": 70,
+      "total_score": 53.997519841847236,
+      "within_range": true,
+      "weather_summary": {
+        "current_temp": 20.8,
+        "current_humidity": 63.2,
+        "current_wind_speed": 1.7,
+        "avg_temp_24h": 17.954166666666666,
+        "max_temp_24h": 20.8,
+        "min_temp_24h": 15.0,
+        "total_precipitation_24h": 3.7,
+        "precipitation_hours": 6
+      },
+      "readable_summary": "🚗 180km (2.6h drive) • 🌡️ 18.0°C • (15.0-20.8°C) • 🌧️ Rain (3.7mm) • 🍃 Light breeze"
+    },
+    {
+      "destination": "Geiranger",
+      "type": "nature",
+      "coordinates": {
+        "lat": 62.1014,
+        "lon": 7.2066
+      },
+      "distance_km": 219.4201802834517,
+      "driving_time_hours": 3.1345740040493104,
+      "weather_score": 60,
+      "total_score": 40.49598397480429,
+      "within_range": true,
+      "weather_summary": {
+        "current_temp": 22.0,
+        "current_humidity": 71.4,
+        "current_wind_speed": 0.4,
+        "avg_temp_24h": 21.125,
+        "max_temp_24h": 22.8,
+        "min_temp_24h": 19.4,
+        "total_precipitation_24h": 2.2,
+        "precipitation_hours": 4
+      },
+      "readable_summary": "🚗 219km (3.1h drive) • 🌡️ 21.1°C • (19.4-22.8°C) • 🌧️ Rain (2.2mm) • 🍃 Light breeze"
+    },
+    {
+      "destination": "Bergen",
+      "type": "city",
+      "coordinates": {
+        "lat": 60.3913,
+        "lon": 5.3221
+      },
+      "distance_km": 429.55760164358827,
+      "driving_time_hours": 6.136537166336975,
+      "weather_score": 100,
+      "total_score": 50,
+      "within_range": false,
+      "weather_summary": {
+        "current_temp": 19.4,
+        "current_humidity": 66.0,
+        "current_wind_speed": 1.5,
+        "avg_temp_24h": 18.745833333333334,
+        "max_temp_24h": 20.5,
+        "min_temp_24h": 15.0,
+        "total_precipitation_24h": 0.0,
+        "precipitation_hours": 0
+      },
+      "readable_summary": "🚗 430km (6.1h drive) • 🌡️ 18.7°C • (15.0-20.5°C) • ☀️ No rain • 🍃 Light breeze"
+    },
+    {
+      "destination": "Oslo",
+      "type": "city",
+      "coordinates": {
+        "lat": 59.9139,
+        "lon": 10.7522
+      },
+      "distance_km": 391.478037068571,
+      "driving_time_hours": 5.592543386693872,
+      "weather_score": 95,
+      "total_score": 45,
+      "within_range": false,
+      "weather_summary": {
+        "current_temp": 22.2,
+        "current_humidity": 34.8,
+        "current_wind_speed": 3.1,
+        "avg_temp_24h": 18.733333333333334,
+        "max_temp_24h": 22.2,
+        "min_temp_24h": 16.7,
+        "total_precipitation_24h": 0.0,
+        "precipitation_hours": 0
+      },
+      "readable_summary": "🚗 391km (5.6h drive) • 🌡️ 18.7°C • (16.7-22.2°C) • ☀️ No rain • 💨 Moderate wind"
+    }
+  ],
+  "generated_at": "2025-06-14T22:00:00.899809"
+}

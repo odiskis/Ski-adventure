@@ -1,0 +1,122 @@
+/* Dark Mode Fix - Add to the end of quiz.css */
+
+/* ===== DARK MODE OVERRIDES ===== */
+@media (prefers-color-scheme: dark) {
+    
+    /* Quiz page dark mode */
+    .question-card,
+    .profile-summary-card,
+    .profile-insights,
+    .next-steps {
+        background: rgba(44, 62, 80, 0.95) !important;  /* Dark background */
+        color: var(--white) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    }
+    
+    /* Text colors in dark mode */
+    .question-title,
+    .profile-title,
+    .profile-insights h3,
+    .next-steps h3 {
+        color: var(--white) !important;  /* White headings */
+    }
+    
+    .question-description,
+    .profile-description,
+    .char-label,
+    .step-text,
+    .next-steps p,
+    .insight-text {
+        color: rgba(255, 255, 255, 0.9) !important;  /* Light gray text */
+    }
+    
+    .char-value,
+    .step-text strong,
+    .insight-text strong {
+        color: var(--accent-orange) !important;  /* Orange accent for emphasis */
+    }
+    
+    /* Answer options in dark mode */
+    .answer-option {
+        background: rgba(255, 255, 255, 0.1) !important;
+        border-color: rgba(255, 255, 255, 0.2) !important;
+        color: var(--white) !important;
+    }
+    
+    .answer-option:hover {
+        background: rgba(255, 255, 255, 0.2) !important;
+        border-color: var(--accent-orange) !important;
+    }
+    
+    .answer-option.selected {
+        background: var(--accent-orange) !important;
+        color: var(--white) !important;
+    }
+    
+    /* Characteristics section in dark mode */
+    .characteristics {
+        background: rgba(255, 255, 255, 0.1) !important;
+    }
+    
+    /* Insight items in dark mode */
+    .insight-item {
+        background: rgba(255, 255, 255, 0.1) !important;
+    }
+    
+    /* Preference bars in dark mode */
+    .preference-bar {
+        background: rgba(255, 255, 255, 0.2) !important;
+    }
+    
+    /* Context hints in dark mode */
+    .context-hint {
+        background: rgba(255, 255, 255, 0.15) !important;
+        color: rgba(255, 255, 255, 0.9) !important;
+        border-color: rgba(255, 255, 255, 0.2) !important;
+    }
+    
+    /* Profile actions in dark mode */
+    .profile-actions {
+        background: rgba(255, 255, 255, 0.1) !important;
+    }
+    
+    .profile-actions h4 {
+        color: var(--white) !important;
+    }
+    
+    .profile-actions p {
+        color: rgba(255, 255, 255, 0.8) !important;
+    }
+    
+    /* Modal content in dark mode */
+    .modal-content {
+        background: var(--dark-gray) !important;
+        color: var(--white) !important;
+    }
+    
+    .modal-header h3 {
+        color: var(--white) !important;
+    }
+    
+    /* Form elements in dark mode (if any) */
+    .form-input,
+    .form-select,
+    .form-textarea {
+        background: rgba(255, 255, 255, 0.1) !important;
+        color: var(--white) !important;
+        border-color: rgba(255, 255, 255, 0.2) !important;
+    }
+    
+    .form-label {
+        color: var(--white) !important;
+    }
+    
+    /* Slider elements in dark mode */
+    .slider-group label {
+        color: var(--white) !important;
+    }
+    
+    .slider-group input[type="range"] {
+        background: rgba(255, 255, 255, 0.2) !important;
+    }
+}

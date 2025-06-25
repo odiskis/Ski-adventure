@@ -1,0 +1,497 @@
+{% extends "base.html" %}
+
+{% block title %}Location & Travel Preferences - Ski Touring Planner{% endblock %}
+
+{% block description %}Set your starting location and travel preferences to get personalized ski touring recommendations.{% endblock %}
+
+{% block body_class %}location-page{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/location.css') }}">
+{% endblock %}
+
+{% block loading_text %}Finding the best ski destinations near you...{% endblock %}
+
+{% block content %}
+<div class="location-container">
+    <!-- Background with journey/travel theme -->
+    <div class="location-background">
+        <svg class="journey-svg" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="roadGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.2"/>
+                    <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0.05"/>
+                </linearGradient>
+            </defs>
+            
+            <!-- Mountain silhouette -->
+            <path d="M0,600 L200,300 L400,450 L600,200 L800,350 L1000,150 L1200,300 L1200,800 L0,800 Z" fill="rgba(255,255,255,0.1)"/>
+            
+            <!-- Winding road/path -->
+            <path d="M50,750 Q200,650 400,700 T800,600 T1150,650" 
+                  stroke="rgba(255,255,255,0.3)" 
+                  stroke-width="6" 
+                  fill="none" 
+                  stroke-dasharray="10,5"/>
+            
+            <!-- Location markers along the path -->
+            <circle cx="150" cy="700" r="4" fill="#ff6b6b" opacity="0.8"/>
+            <circle cx="400" cy="700" r="4" fill="#ff6b6b" opacity="0.8"/>
+            <circle cx="650" cy="620" r="4" fill="#ff6b6b" opacity="0.8"/>
+            <circle cx="900" cy="625" r="4" fill="#ff6b6b" opacity="0.8"/>
+        </svg>
+    </div>
+    
+    <!-- Location Form Content -->
+    <div class="location-content container">
+        <!-- Progress indicator -->
+        <div class="setup-progress">
+            <div class="progress-step completed">
+                <div class="step-number">1</div>
+                <div class="step-label">Quiz</div>
+            </div>
+            <div class="progress-line completed"></div>
+            <div class="progress-step active">
+                <div class="step-number">2</div>
+                <div class="step-label">Location</div>
+            </div>
+            <div class="progress-line"></div>
+            <div class="progress-step">
+                <div class="step-number">3</div>
+                <div class="step-label">Results</div>
+            </div>
+        </div>
+        
+        <!-- Main Form -->
+        <div class="location-form-card">
+            <div class="form-header">
+                <h1 class="form-title">🗺️ Where's Your Starting Point?</h1>
+                <p class="form-subtitle">
+                    Tell us where you're located so we can find the best ski touring destinations within your travel range.
+                </p>
+            </div>
+            
+            <form id="locationForm" class="location-form" data-loading="Finding perfect ski destinations...">
+                <!-- Location Input -->
+                <div class="form-section">
+                    <div class="form-group">
+                        <label for="locationInput" class="form-label">
+                            📍 Your Starting Location
+                        </label>
+                        <div class="location-input-container">
+                            <input type="text" 
+                                   id="locationInput" 
+                                   name="location" 
+                                   class="form-input location-input" 
+                                   placeholder="e.g., Oslo, Trondheim, Bergen..."
+                                   autocomplete="off"
+                                   required>
+                            <div class="input-icon">🔍</div>
+                        </div>
+                        <div class="form-help">
+                            Enter any Norwegian city, town, or landmark. We'll find the coordinates automatically.
+                        </div>
+                        <div id="locationSuggestions" class="suggestions-dropdown hidden"></div>
+                        <div id="locationError" class="form-error hidden"></div>
+                    </div>
+                </div>
+                
+                <!-- Travel Preferences -->
+                <div class="form-section">
+                    <h3 class="section-title">🚗 How Far Will You Travel?</h3>
+                    <p class="section-description">
+                        The best ski conditions might be a bit of a drive away. How far are you willing to go for the perfect powder?
+                    </p>
+                    
+                    <div class="travel-options">
+                        <input type="radio" id="travel1" name="max_hours" value="1" class="travel-radio">
+                        <label for="travel1" class="travel-option">
+                            <div class="travel-icon">🏠</div>
+                            <div class="travel-content">
+                                <div class="travel-title">1 Hour</div>
+                                <div class="travel-subtitle">Local area only (~70km)</div>
+                                <div class="travel-description">Perfect for quick day trips and spontaneous adventures</div>
+                            </div>
+                        </label>
+                        
+                        <input type="radio" id="travel2" name="max_hours" value="2" class="travel-radio">
+                        <label for="travel2" class="travel-option">
+                            <div class="travel-icon">🏔️</div>
+                            <div class="travel-content">
+                                <div class="travel-title">2 Hours</div>
+                                <div class="travel-subtitle">Regional access (~140km)</div>
+                                <div class="travel-description">Good balance of travel time and destination options</div>
+                            </div>
+                        </label>
+                        
+                        <input type="radio" id="travel3" name="max_hours" value="3" class="travel-radio" checked>
+                        <label for="travel3" class="travel-option recommended">
+                            <div class="travel-icon">🎿</div>
+                            <div class="travel-content">
+                                <div class="travel-title">3 Hours</div>
+                                <div class="travel-subtitle">Extended range (~210km)</div>
+                                <div class="travel-description">Most popular choice - access to major ski regions</div>
+                                <div class="recommended-badge">Recommended</div>
+                            </div>
+                        </label>
+                        
+                        <input type="radio" id="travel4" name="max_hours" value="4" class="travel-radio">
+                        <label for="travel4" class="travel-option">
+                            <div class="travel-icon">🗻</div>
+                            <div class="travel-content">
+                                <div class="travel-title">4 Hours</div>
+                                <div class="travel-subtitle">Long-distance (~280km)</div>
+                                <div class="travel-description">Worth it for exceptional conditions</div>
+                            </div>
+                        </label>
+                        
+                        <input type="radio" id="travel5" name="max_hours" value="5" class="travel-radio">
+                        <label for="travel5" class="travel-option">
+                            <div class="travel-icon">🏕️</div>
+                            <div class="travel-content">
+                                <div class="travel-title">5+ Hours</div>
+                                <div class="travel-subtitle">Adventure travel (~350km+)</div>
+                                <div class="travel-description">Multi-day trips and destination adventures</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Additional Preferences -->
+                <div class="form-section">
+                    <h3 class="section-title">⚙️ Additional Preferences</h3>
+                    
+                    <div class="preference-grid">
+                        <div class="preference-item">
+                            <input type="checkbox" id="walkingTolerance" name="walking_tolerance" class="checkbox-input">
+                            <label for="walkingTolerance" class="checkbox-label">
+                                <div class="checkbox-icon">🥾</div>
+                                <div class="checkbox-content">
+                                    <div class="checkbox-title">Hiking to Snow</div>
+                                    <div class="checkbox-description">Include destinations that require walking/hiking from parking to reach good snow</div>
+                                </div>
+                            </label>
+                        </div>
+                        
+                        <div class="preference-item">
+                            <input type="checkbox" id="weekendOnly" name="weekend_focus" class="checkbox-input">
+                            <label for="weekendOnly" class="checkbox-label">
+                                <div class="checkbox-icon">📅</div>
+                                <div class="checkbox-content">
+                                    <div class="checkbox-title">Weekend Focus</div>
+                                    <div class="checkbox-description">Prioritize easily accessible destinations for weekend trips</div>
+                                </div>
+                            </label>
+                        </div>
+                        
+                        <div class="preference-item">
+                            <input type="checkbox" id="includeResorts" name="include_resorts" class="checkbox-input" checked>
+                            <label for="includeResorts" class="checkbox-label">
+                                <div class="checkbox-icon">🎿</div>
+                                <div class="checkbox-content">
+                                    <div class="checkbox-title">Include Ski Resorts</div>
+                                    <div class="checkbox-description">Include ski resorts with good touring access (lift-assisted tours)</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Form Actions -->
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary btn-large">
+                        Find My Perfect Destinations →
+                    </button>
+                    <a href="{{ url_for('quiz_results') }}" class="btn btn-outline">
+                        ← Back to Profile
+                    </a>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Location Preview -->
+        <div id="locationPreview" class="location-preview hidden">
+            <div class="preview-content">
+                <h4>📍 Selected Location</h4>
+                <div id="previewLocation" class="preview-location"></div>
+                <div id="previewDetails" class="preview-details"></div>
+            </div>
+        </div>
+        
+        <!-- Quick Examples -->
+        <div class="location-examples">
+            <h4>💡 Popular Starting Points</h4>
+            <div class="example-locations">
+                <button class="example-btn" onclick="selectExample('Oslo')">Oslo</button>
+                <button class="example-btn" onclick="selectExample('Bergen')">Bergen</button>
+                <button class="example-btn" onclick="selectExample('Trondheim')">Trondheim</button>
+                <button class="example-btn" onclick="selectExample('Tromsø')">Tromsø</button>
+                <button class="example-btn" onclick="selectExample('Stavanger')">Stavanger</button>
+                <button class="example-btn" onclick="selectExample('Ålesund')">Ålesund</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Info Modal for Travel Distances -->
+<div id="travelInfoModal" class="modal hidden">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>🗺️ Travel Distance Guide</h3>
+            <button class="modal-close" onclick="closeTravelInfo()">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="distance-guide">
+                <div class="distance-item">
+                    <strong>1 Hour (≤70km):</strong> Local mountains and nearby valleys
+                </div>
+                <div class="distance-item">
+                    <strong>2 Hours (≤140km):</strong> Regional access to multiple mountain areas
+                </div>
+                <div class="distance-item">
+                    <strong>3 Hours (≤210km):</strong> Major ski regions like Jotunheimen, Hemsedal
+                </div>
+                <div class="distance-item">
+                    <strong>4 Hours (≤280km):</strong> Reach most of southern Norway from Oslo
+                </div>
+                <div class="distance-item">
+                    <strong>5+ Hours (350km+):</strong> Access to Lofoten, Lyngen Alps from south
+                </div>
+            </div>
+            <p class="distance-note">
+                <strong>Note:</strong> Distances are calculated as straight-line distance. Actual driving time may vary based on roads and conditions.
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/location.js') }}"></script>
+<script>
+    let locationSuggestions = [];
+    let selectedLocation = null;
+    let debounceTimer = null;
+    
+    // Form submission handler
+    document.getElementById('locationForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        const locationInput = formData.get('location');
+        const maxHours = formData.get('max_hours') || 3;
+        
+        if (!locationInput.trim()) {
+            showLocationError('Please enter a starting location.');
+            return;
+        }
+        
+        try {
+            const locationData = {
+                location: locationInput.trim(),
+                max_hours: parseInt(maxHours),
+                walking_tolerance: formData.has('walking_tolerance'),
+                weekend_focus: formData.has('weekend_focus'),
+                include_resorts: formData.has('include_resorts')
+            };
+            
+            const response = await makeApiCall('{{ url_for("location") }}', {
+                method: 'POST',
+                body: JSON.stringify(locationData)
+            });
+            
+            if (response.success) {
+                // Navigate to recommendations
+                window.location.href = response.redirect;
+            } else {
+                showLocationError(response.error || 'Please check your location and try again.');
+            }
+            
+        } catch (error) {
+            console.error('Location submission error:', error);
+            showLocationError('Network error. Please check your connection and try again.');
+        }
+    });
+    
+    // Location input with autocomplete
+    const locationInput = document.getElementById('locationInput');
+    
+    locationInput.addEventListener('input', function() {
+        clearTimeout(debounceTimer);
+        const query = this.value.trim();
+        
+        if (query.length < 2) {
+            hideSuggestions();
+            return;
+        }
+        
+        debounceTimer = setTimeout(() => {
+            searchLocations(query);
+        }, 300);
+    });
+    
+    locationInput.addEventListener('blur', function() {
+        // Delay hiding suggestions to allow clicking
+        setTimeout(hideSuggestions, 200);
+    });
+    
+    locationInput.addEventListener('focus', function() {
+        if (this.value.length >= 2) {
+            searchLocations(this.value.trim());
+        }
+    });
+    
+    async function searchLocations(query) {
+        try {
+            const response = await fetch(`/api/locations/search?q=${encodeURIComponent(query)}`);
+            const suggestions = await response.json();
+            
+            if (suggestions && suggestions.length > 0) {
+                showSuggestions(suggestions);
+            } else {
+                hideSuggestions();
+            }
+            
+        } catch (error) {
+            console.error('Location search error:', error);
+            hideSuggestions();
+        }
+    }
+    
+    function showSuggestions(suggestions) {
+        const dropdown = document.getElementById('locationSuggestions');
+        dropdown.innerHTML = '';
+        
+        suggestions.forEach((suggestion, index) => {
+            const item = document.createElement('div');
+            item.className = 'suggestion-item';
+            item.innerHTML = `
+                <div class="suggestion-name">${suggestion.display}</div>
+                <div class="suggestion-details">${suggestion.municipality || ''} ${suggestion.county || ''}</div>
+            `;
+            
+            item.addEventListener('click', () => {
+                selectSuggestion(suggestion);
+            });
+            
+            dropdown.appendChild(item);
+        });
+        
+        dropdown.classList.remove('hidden');
+    }
+    
+    function hideSuggestions() {
+        document.getElementById('locationSuggestions').classList.add('hidden');
+    }
+    
+    function selectSuggestion(suggestion) {
+        locationInput.value = suggestion.value;
+        selectedLocation = suggestion;
+        hideSuggestions();
+        clearLocationError();
+        showLocationPreview(suggestion);
+    }
+    
+    function selectExample(locationName) {
+        locationInput.value = locationName;
+        locationInput.focus();
+        searchLocations(locationName);
+    }
+    
+    function showLocationPreview(location) {
+        const preview = document.getElementById('locationPreview');
+        const locationEl = document.getElementById('previewLocation');
+        const detailsEl = document.getElementById('previewDetails');
+        
+        locationEl.textContent = location.display || location.value;
+        detailsEl.innerHTML = `
+            <div class="coord-info">📍 ${location.lat?.toFixed(4)}, ${location.lon?.toFixed(4)}</div>
+        `;
+        
+        preview.classList.remove('hidden');
+    }
+    
+    function showLocationError(message) {
+        const errorEl = document.getElementById('locationError');
+        errorEl.textContent = message;
+        errorEl.classList.remove('hidden');
+        locationInput.classList.add('error');
+    }
+    
+    function clearLocationError() {
+        document.getElementById('locationError').classList.add('hidden');
+        locationInput.classList.remove('error');
+    }
+    
+    // Travel option selection
+    document.querySelectorAll('.travel-radio').forEach(radio => {
+        radio.addEventListener('change', function() {
+            document.querySelectorAll('.travel-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            this.nextElementSibling.classList.add('selected');
+            
+            // Show travel info for 4+ hours
+            if (parseInt(this.value) >= 4) {
+                showTravelInfo();
+            }
+        });
+    });
+    
+    // Set default selection visual
+    document.querySelector('input[value="3"]').nextElementSibling.classList.add('selected');
+    
+    function showTravelInfo() {
+        document.getElementById('travelInfoModal').classList.remove('hidden');
+    }
+    
+    function closeTravelInfo() {
+        document.getElementById('travelInfoModal').classList.add('hidden');
+    }
+    
+    // Keyboard navigation for suggestions
+    document.addEventListener('keydown', function(event) {
+        const dropdown = document.getElementById('locationSuggestions');
+        if (dropdown.classList.contains('hidden')) return;
+        
+        const items = dropdown.querySelectorAll('.suggestion-item');
+        const activeItem = dropdown.querySelector('.suggestion-item.active');
+        
+        if (event.key === 'ArrowDown') {
+            event.preventDefault();
+            let nextIndex = 0;
+            if (activeItem) {
+                const currentIndex = Array.from(items).indexOf(activeItem);
+                nextIndex = (currentIndex + 1) % items.length;
+                activeItem.classList.remove('active');
+            }
+            items[nextIndex].classList.add('active');
+            
+        } else if (event.key === 'ArrowUp') {
+            event.preventDefault();
+            let prevIndex = items.length - 1;
+            if (activeItem) {
+                const currentIndex = Array.from(items).indexOf(activeItem);
+                prevIndex = (currentIndex - 1 + items.length) % items.length;
+                activeItem.classList.remove('active');
+            }
+            items[prevIndex].classList.add('active');
+            
+        } else if (event.key === 'Enter') {
+            event.preventDefault();
+            if (activeItem) {
+                activeItem.click();
+            }
+        } else if (event.key === 'Escape') {
+            hideSuggestions();
+        }
+    });
+    
+    // Analytics tracking
+    document.addEventListener('DOMContentLoaded', function() {
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'location_setup_view');
+        }
+    });
+</script>
+{% endblock %}

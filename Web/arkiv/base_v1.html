@@ -1,0 +1,443 @@
+{% block title %}Norway Ski Touring Planner - Find Your Perfect Ski Adventure{% endblock %}
+
+{% block description %}Personalized ski touring recommendations across Norway's spectacular mountains. Get weather, snow, and avalanche conditions tailored to your preferences.{% endblock %}
+
+{% block body_class %}landing-page{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/landing.css') }}">
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section" id="hero">
+    <div class="hero-background">
+        <!-- SVG Mountain silhouettes -->
+        <svg class="mountain-svg" viewBox="0 0 1200 600" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="mountainGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.1"/>
+                    <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0.05"/>
+                </linearGradient>
+                <linearGradient id="mountainGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.08"/>
+                    <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0.03"/>
+                </linearGradient>
+            </defs>
+            
+            <!-- Background mountain layers -->
+            <path d="M0,400 Q300,200 600,300 T1200,250 L1200,600 L0,600 Z" fill="url(#mountainGrad1)"/>
+            <path d="M0,500 Q400,300 800,400 T1200,350 L1200,600 L0,600 Z" fill="url(#mountainGrad2)"/>
+            
+            <!-- Fjord water reflection -->
+            <path d="M0,580 Q200,575 400,580 T800,575 T1200,580 L1200,600 L0,600 Z" fill="rgba(255,255,255,0.1)"/>
+        </svg>
+    </div>
+    
+    <div class="hero-content container">
+        <div class="hero-text">
+            <h1 class="hero-title">
+                🎿 Discover Your Perfect<br>
+                <span class="highlight">Ski Adventure</span>
+            </h1>
+            <p class="hero-subtitle">
+                Personalized ski touring recommendations based on weather, snow conditions, 
+                and your unique preferences across Norway's most spectacular mountains.
+            </p>
+            <div class="hero-actions">
+                <a href="{{ url_for('quiz') }}" class="btn btn-primary btn-large">
+                    Find My Perfect Ski Tour
+                </a>
+                <a href="#features" class="btn btn-outline btn-large">
+                    Learn More
+                </a>
+            </div>
+        </div>
+        
+        <div class="hero-visual">
+            <div class="conditions-preview">
+                <div class="condition-card">
+                    <div class="condition-icon">❄️</div>
+                    <div class="condition-text">
+                        <strong>Fresh Snow</strong>
+                        <span>Real-time snow depth</span>
+                    </div>
+                </div>
+                <div class="condition-card">
+                    <div class="condition-icon">🌤️</div>
+                    <div class="condition-text">
+                        <strong>Weather</strong>
+                        <span>Detailed forecasts</span>
+                    </div>
+                </div>
+                <div class="condition-card">
+                    <div class="condition-icon">⚠️</div>
+                    <div class="condition-text">
+                        <strong>Safety</strong>
+                        <span>Avalanche warnings</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scroll indicator -->
+    <div class="scroll-indicator">
+        <span>Scroll to explore</span>
+        <div class="scroll-arrow">↓</div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features-section" id="features">
+    <div class="container">
+        <div class="section-header">
+            <h2>🏔️ Why Choose Our Ski Touring Planner?</h2>
+            <p>We combine multiple data sources and your personal preferences to find your perfect mountain adventure.</p>
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🧠</div>
+                <h3>Personalized Recommendations</h3>
+                <p>Take our personality quiz to get recommendations tailored to your skiing style, risk tolerance, and preferences.</p>
+                <ul class="feature-list">
+                    <li>Powder hunter or view seeker?</li>
+                    <li>Safety-first or adventure-seeking?</li>
+                    <li>Coastal alpine or high mountains?</li>
+                </ul>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🌐</div>
+                <h3>Real-Time Conditions</h3>
+                <p>Access live data from multiple Norwegian weather and safety services for the most accurate conditions.</p>
+                <ul class="feature-list">
+                    <li>Weather from MET Norway (Yr.no)</li>
+                    <li>Snow depth from SeNorge</li>
+                    <li>Avalanche warnings from Varsom</li>
+                    <li>Location data from Kartverket   </li>
+                </ul>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">⛰️</div>
+                <h3>Comprehensive Coverage</h3>
+                <p>From Lofoten's dramatic peaks to Jotunheimen's glaciated summits - we cover Norway's best ski touring destinations.</p>
+                <ul class="feature-list">
+                    <li>15+ premier ski regions</li>
+                    <li>100+ specific tour recommendations</li>
+                    <li>Summit-to-sea and high alpine options</li>
+                </ul>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Smart Matching</h3>
+                <p>Our advanced algorithm considers weather, snow quality, avalanche risk, and driving distance to rank destinations.</p>
+                <ul class="feature-list">
+                    <li>Personalized scoring system</li>
+                    <li>Regional weather analysis</li>
+                    <li>Safety-first approach</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="process-section" id="how-it-works">
+    <div class="container">
+        <div class="section-header">
+            <h2>🚀 How It Works</h2>
+            <p>Get personalized ski touring recommendations in just a few simple steps.</p>
+        </div>
+        
+        <div class="process-steps">
+            <div class="process-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>📝 Take the Quiz</h3>
+                    <p>Answer 7 quick questions about your skiing preferences, risk tolerance, and what you value most in a ski tour.</p>
+                    <div class="step-detail">
+                        <span class="time-estimate">⏱️ 2-3 minutes</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="process-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>📍 Set Your Location</h3>
+                    <p>Tell us where you're starting from and how far you're willing to drive for the perfect ski conditions.</p>
+                    <div class="step-detail">
+                        <span class="time-estimate">⏱️ 30 seconds</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="process-step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>🎿 Get Recommendations</h3>
+                    <p>Receive personalized recommendations with current conditions, safety information, and detailed descriptions.</p>
+                    <div class="step-detail">
+                        <span class="time-estimate">⏱️ Instant results</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="process-cta">
+            <a href="{{ url_for('quiz') }}" class="btn btn-primary btn-large">
+                Start Planning Your Adventure
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Popular Destinations Preview -->
+<section class="destinations-preview" id="destinations">
+    <div class="container">
+        <div class="section-header">
+            <h2>🏔️ Featured Ski Regions</h2>
+            <p>Explore some of Norway's most spectacular ski touring destinations.</p>
+        </div>
+        
+        <div class="destinations-grid">
+            <div class="destination-card lyngen">
+                <div class="destination-image">
+                    <div class="destination-overlay">
+                        <h3>🌊 Lyngen Alps</h3>
+                        <p>Epic summit-to-sea skiing</p>
+                        <div class="destination-features">
+                            <span class="feature-tag">Coastal Alpine</span>
+                            <span class="feature-tag">Advanced</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="destination-card lofoten">
+                <div class="destination-image">
+                    <div class="destination-overlay">
+                        <h3>🏝️ Lofoten Islands</h3>
+                        <p>Dramatic peaks rising from the sea</p>
+                        <div class="destination-features">
+                            <span class="feature-tag">Iconic Views</span>
+                            <span class="feature-tag">Intermediate</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="destination-card jotunheimen">
+                <div class="destination-image">
+                    <div class="destination-overlay">
+                        <h3>🏔️ Jotunheimen</h3>
+                        <p>Norway's highest peaks and glaciers</p>
+                        <div class="destination-features">
+                            <span class="feature-tag">High Alpine</span>
+                            <span class="feature-tag">Challenging</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="destination-card hemsedal">
+                <div class="destination-image">
+                    <div class="destination-overlay">
+                        <h3>🌲 Hemsedal</h3>
+                        <p>Family-friendly forest skiing</p>
+                        <div class="destination-features">
+                            <span class="feature-tag">Forest Valley</span>
+                            <span class="feature-tag">Beginner</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="destinations-cta">
+            <p>Ready to find your perfect match among these and many more destinations?</p>
+            <a href="{{ url_for('quiz') }}" class="btn btn-secondary btn-large">
+                Discover Your Ideal Destination
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Safety Section -->
+<section class="safety-section" id="safety">
+    <div class="container">
+        <div class="safety-content">
+            <div class="safety-text">
+                <h2>🚨 Safety First</h2>
+                <p class="safety-intro">
+                    Mountain skiing involves inherent risks. Our recommendations are based on available data, 
+                    but conditions can change rapidly in the mountains.
+                </p>
+                
+                <div class="safety-guidelines">
+                    <h3>Essential Safety Reminders:</h3>
+                    <ul class="safety-list">
+                        <li><strong>Check current conditions:</strong> Always verify weather, snow, and avalanche conditions before heading out</li>
+                        <li><strong>Tell someone your plans:</strong> Share your route and expected return time</li>
+                        <li><strong>Carry safety equipment:</strong> Avalanche transceiver, probe, shovel, and first aid kit</li>
+                        <li><strong>Know your limits:</strong> Choose terrain appropriate for your skill level</li>
+                        <li><strong>Consider a guide:</strong> For unfamiliar terrain or challenging conditions</li>
+                    </ul>
+                </div>
+                
+                <div class="emergency-info">
+                    <h3>🚑 Emergency Contact:</h3>
+                    <p><strong>112</strong> - Norwegian Emergency Services</p>
+                    <button class="btn btn-outline" onclick="showEmergencyInfo()">
+                        View All Emergency Numbers
+                    </button>
+                </div>
+            </div>
+            
+            <div class="safety-resources">
+                <h3>📚 Essential Resources:</h3>
+                <div class="resource-links">
+                    <a href="https://varsom.no" target="_blank" rel="noopener" class="resource-link">
+                        <div class="resource-icon">⚠️</div>
+                        <div class="resource-text">
+                            <strong>Varsom.no</strong>
+                            <span>Official avalanche warnings</span>
+                        </div>
+                    </a>
+                    
+                    <a href="https://senorge.no" target="_blank" rel="noopener" class="resource-link">
+                        <div class="resource-icon">❄️</div>
+                        <div class="resource-text">
+                            <strong>SeNorge.no</strong>
+                            <span>Snow depth and conditions</span>
+                        </div>
+                    </a>
+                    
+                    <a href="https://yr.no" target="_blank" rel="noopener" class="resource-link">
+                        <div class="resource-icon">🌤️</div>
+                        <div class="resource-text">
+                            <strong>Yr.no</strong>
+                            <span>Detailed weather forecasts</span>
+                        </div>
+                    </a>
+                    
+                    <a href="https://ut.no" target="_blank" rel="noopener" class="resource-link">
+                        <div class="resource-icon">🗺️</div>
+                        <div class="resource-text">
+                            <strong>UT.no</strong>
+                            <span>Trip planning and routes</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Final CTA Section -->
+<section class="final-cta" id="get-started">
+    <div class="container">
+        <div class="cta-content">
+            <h2>🎿 Ready for Your Next Adventure?</h2>
+            <p>
+                Join skiers who trust our personalized recommendations to find the best conditions 
+                and safest routes across Norway's spectacular mountains.
+            </p>
+            
+            <div class="cta-stats">
+                <div class="stat">
+                    <div class="stat-number">15+</div>
+                    <div class="stat-label">Ski Regions</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">100+</div>
+                    <div class="stat-label">Tour Options</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">4</div>
+                    <div class="stat-label">Data Sources</div>
+                </div>
+            </div>
+            
+            <div class="cta-actions">
+                <a href="{{ url_for('quiz') }}" class="btn btn-primary btn-large">
+                    Plan My Ski Adventure
+                </a>
+                <a href="{{ url_for('about') }}" class="btn btn-outline">
+                    Learn More About Our Service
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/landing.js') }}"></script>
+<script>
+    // Landing page specific JavaScript
+    document.addEventListener('DOMContentLoaded', function() {
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Parallax effect for hero section
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelector('.hero-background');
+            if (parallax && scrolled < window.innerHeight) {
+                const speed = scrolled * 0.5;
+                parallax.style.transform = `translateY(${speed}px)`;
+            }
+        });
+        
+        // Animate elements when they come into view
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                }
+            });
+        }, observerOptions);
+        
+        // Observe elements for animation
+        document.querySelectorAll('.feature-card, .process-step, .destination-card, .safety-content').forEach(el => {
+            observer.observe(el);
+        });
+        
+        // Hide scroll indicator after first scroll
+        let hasScrolled = false;
+        window.addEventListener('scroll', function() {
+            if (!hasScrolled && window.pageYOffset > 100) {
+                hasScrolled = true;
+                const scrollIndicator = document.querySelector('.scroll-indicator');
+                if (scrollIndicator) {
+                    scrollIndicator.style.opacity = '0';
+                    setTimeout(() => {
+                        scrollIndicator.style.display = 'none';
+                    }, 500);
+                }
+            }
+        });
+    });
+</script>
+{% endblock %}

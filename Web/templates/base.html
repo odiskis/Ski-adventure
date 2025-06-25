@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <!-- SEO Meta Tags -->
+    <title>{% block title %}Norway Ski Touring Planner{% endblock %}</title>
+    <meta name="description" content="{% block description %}Find the perfect ski touring destinations in Norway based on current weather, snow conditions, and your personal preferences.{% endblock %}">
+    <meta name="keywords" content="ski touring, Norway, mountains, snow conditions, weather, avalanche safety, outdoor adventure">
+    <meta name="author" content="Norway Ski Touring Planner">
+    
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ self.title() }}">
+    <meta property="og:description" content="{{ self.description() }}">
+    <meta property="og:url" content="{{ request.url }}">
+    <meta property="og:site_name" content="Norway Ski Touring Planner">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ self.title() }}">
+    <meta name="twitter:description" content="{{ self.description() }}">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.svg') }}">
+    <!-- <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/apple-touch-icon.png') }}"> -->
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    {% block extra_css %}{% endblock %}
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="{{ url_for('static', filename='css/main.css') }}" as="style">
+    <link rel="preload" href="{{ url_for('static', filename='js/main.js') }}" as="script">
+    
+    <!-- DNS Prefetch for External Resources -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Norway Ski Touring Planner",
+        "description": "Find perfect ski touring destinations in Norway based on weather and snow conditions",
+        "url": "{{ request.url_root }}",
+        "applicationCategory": "SportsApplication",
+        "operatingSystem": "Web Browser",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "NOK"
+        }
+    }
+    </script>
+</head>
+
+<body class="{% block body_class %}{% endblock %}">
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="sr-only">Skip to main content</a>
+    
+    <!-- 
+    Loading Overlay (optional, can be uncommented if needed)  -->
+    
+    <div id="loadingOverlay" class="loading-overlay hidden">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p id="loadingText" class="loading-text">{% block loading_text %}Loading...{% endblock %}</p>
+        </div>
+    </div>
+    <!-- commented out as it never stops loading -->
+
+    <!-- Navigation -->
+    <nav class="main-nav" role="navigation" aria-label="Main navigation">
+        <div class="nav-container">
+            <a href="{{ url_for('index') }}" class="nav-logo" aria-label="Go to homepage">
+                <span class="logo-icon">🎿</span>
+                <span class="logo-text">SkiTour Norway</span>
+            </a>
+            
+            <div class="nav-menu" id="navMenu">
+                <a href="{{ url_for('index') }}" class="nav-link {% if request.endpoint == 'index' %}active{% endif %}">
+                    Home
+                </a>
+                <a href="{{ url_for('quiz') }}" class="nav-link {% if request.endpoint in ['quiz', 'quiz_question', 'quiz_results'] %}active{% endif %}">
+                    Take Quiz
+                </a>
+                <a href="{{ url_for('about') }}" class="nav-link {% if request.endpoint == 'about' %}active{% endif %}">
+                    About
+                </a>
+            </div>
+            
+            <!-- Mobile Menu Toggle -->
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main id="main-content" class="main-content" role="main">
+        {% block content %}{% endblock %}
+    </main>
+    
+    <!-- Footer -->
+    <footer class="main-footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 class="footer-title">🎿 SkiTour Norway</h3>
+                    <p class="footer-description">
+                        Your trusted companion for safe and amazing ski touring adventures across Norway's magnificent mountains.
+                    </p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-subtitle">Quick Links</h4>
+                    <nav class="footer-nav" aria-label="Footer navigation">
+                        <a href="{{ url_for('index') }}" class="footer-link">Home</a>
+                        <a href="{{ url_for('quiz') }}" class="footer-link">Take Quiz</a>
+                        <a href="{{ url_for('about') }}" class="footer-link">About</a>
+                    </nav>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-subtitle">Safety Resources</h4>
+                    <nav class="footer-nav" aria-label="Safety resources">
+                        <a href="https://varsom.no/en/" class="footer-link" target="_blank" rel="noopener">
+                            Avalanche Warnings
+                        </a>
+                        <a href="https://yr.no/en" class="footer-link" target="_blank" rel="noopener">
+                            Weather Forecast
+                        </a>
+                        <a href="https://ut.no/kart" class="footer-link" target="_blank" rel="noopener">
+                            Trail Maps
+                        </a>
+                    </nav>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-subtitle">Emergency</h4>
+                    <div class="emergency-contacts">
+                        <div class="emergency-item">
+                            <strong>General Emergency:</strong> 112
+                        </div>
+                        <div class="emergency-item">
+                            <strong>Medical Emergency:</strong> 113
+                        </div>
+                        <div class="emergency-item">
+                            <strong>Sea Rescue:</strong> 02800
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="footer-legal">
+                    <p>&copy; {{ current_year or 2025 }} SkiTour Norway. Educational project for NTNU.</p>
+                    <p class="footer-disclaimer">
+                        Always check current conditions and follow safety guidelines. Ski touring involves inherent risks.
+                    </p>
+                </div>
+                <div class="footer-credits">
+                    <p>Data sources: <a href="https://met.no" target="_blank" rel="noopener">MET Norway</a>, 
+                    <a href="https://varsom.no" target="_blank" rel="noopener">Varsom</a></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+    {% block extra_js %}{% endblock %}
+    
+    <!-- Service Worker for PWA (if implemented) -->
+    {% if config.get('ENABLE_PWA', False) %}
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('{{ url_for("static", filename="js/sw.js") }}')
+                    .then(function(registration) {
+                        console.log('ServiceWorker registration successful');
+                    })
+                    .catch(function(error) {
+                        console.log('ServiceWorker registration failed');
+                    });
+            });
+        }
+    </script>
+    {% endif %}
+</body>
+</html>

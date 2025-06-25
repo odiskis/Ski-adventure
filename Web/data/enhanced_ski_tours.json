@@ -1,0 +1,435 @@
+{
+  "regions": {
+    "Lyngen": {
+      "name": "Lyngen Alps",
+      "description": "Arctic summit-to-sea skiing at its finest",
+      "weather_priority": "coastal_alpine",
+      "ski_tours": [
+        {
+          "name": "Store Lenangen",
+          "lat": 69.8567,
+          "lon": 20.3833,
+          "elevation_range": [0, 1833],
+          "difficulty": "advanced",
+          "duration_hours": "6-8",
+          "approach": "boat_or_snowmobile",
+          "description": "Classic Lyngen summit-to-sea descent",
+          "features": ["epic_views", "steep_terrain", "glacier_access"],
+          "avalanche_exposure": "high",
+          "technical_grade": 8
+        },
+        {
+          "name": "Kåfjord Valley Tours",
+          "lat": 69.4000,
+          "lon": 20.5000,
+          "elevation_range": [50, 1600],
+          "difficulty": "intermediate",
+          "duration_hours": "4-6",
+          "approach": "road_access",
+          "description": "More accessible Lyngen skiing with valley approach",
+          "features": ["fjord_views", "moderate_terrain", "good_access"],
+          "avalanche_exposure": "moderate",
+          "technical_grade": 6
+        },
+        {
+          "name": "Ullstinden",
+          "lat": 69.7000,
+          "lon": 20.2500,
+          "elevation_range": [100, 1608],
+          "difficulty": "advanced",
+          "duration_hours": "7-9",
+          "approach": "boat_access",
+          "description": "Demanding peak with spectacular arctic views",
+          "features": ["challenging_route", "panoramic_views", "remote"],
+          "avalanche_exposure": "high",
+          "technical_grade": 9
+        }
+      ]
+    },
+    "Lofoten": {
+      "name": "Lofoten Islands", 
+      "description": "Dramatic peaks rising from the Norwegian Sea",
+      "weather_priority": "coastal_alpine",
+      "ski_tours": [
+        {
+          "name": "Reine Peak Circuit",
+          "lat": 67.9344,
+          "lon": 13.0881,
+          "elevation_range": [0, 1200],
+          "difficulty": "intermediate",
+          "duration_hours": "5-7",
+          "approach": "road_access",
+          "description": "Classic Lofoten summit-to-sea with iconic views",
+          "features": ["iconic_views", "fishing_villages", "steep_descents"],
+          "avalanche_exposure": "high",
+          "technical_grade": 7
+        },
+        {
+          "name": "Svolvær Area",
+          "lat": 68.2348,
+          "lon": 14.5647,
+          "elevation_range": [0, 1000],
+          "difficulty": "beginner",
+          "duration_hours": "3-5",
+          "approach": "road_access",
+          "description": "Accessible Lofoten skiing near main town",
+          "features": ["beginner_friendly", "town_access", "moderate_terrain"],
+          "avalanche_exposure": "moderate",
+          "technical_grade": 4
+        },
+        {
+          "name": "Kvalnes Beach to Summit",
+          "lat": 68.0000,
+          "lon": 13.2000,
+          "elevation_range": [0, 800],
+          "difficulty": "intermediate",
+          "duration_hours": "4-6",
+          "approach": "road_access",
+          "description": "Unique beach-to-summit ski tour",
+          "features": ["beach_start", "unique_experience", "moderate_climb"],
+          "avalanche_exposure": "moderate",
+          "technical_grade": 5
+        }
+      ]
+    },
+    "Jotunheimen": {
+      "name": "Jotunheimen National Park",
+      "description": "Norway's premier high alpine ski touring",
+      "weather_priority": "high_alpine",
+      "ski_tours": [
+        {
+          "name": "Galdhøpiggen",
+          "lat": 61.6364,
+          "lon": 8.3125,
+          "elevation_range": [1400, 2469],
+          "difficulty": "advanced",
+          "duration_hours": "8-10",
+          "approach": "hut_access",
+          "description": "Norway's highest peak - ultimate ski mountaineering",
+          "features": ["highest_peak", "glacier_skiing", "technical_terrain"],
+          "avalanche_exposure": "high",
+          "technical_grade": 9
+        },
+        {
+          "name": "Glittertind",
+          "lat": 61.6833,
+          "lon": 8.3472,
+          "elevation_range": [1350, 2452],
+          "difficulty": "advanced",
+          "duration_hours": "7-9",
+          "approach": "hut_access",
+          "description": "Second highest peak with excellent skiing",
+          "features": ["high_elevation", "glacier_access", "panoramic_views"],
+          "avalanche_exposure": "high",
+          "technical_grade": 8
+        },
+        {
+          "name": "Besseggen Ridge Ski",
+          "lat": 61.5000,
+          "lon": 8.6500,
+          "elevation_range": [990, 1743],
+          "difficulty": "intermediate",
+          "duration_hours": "6-8",
+          "approach": "road_access",
+          "description": "Famous ridge line with spectacular lake views",
+          "features": ["ridge_skiing", "lake_views", "iconic_route"],
+          "avalanche_exposure": "moderate",
+          "technical_grade": 6
+        },
+        {
+          "name": "Knutshøe",
+          "lat": 61.2000,
+          "lon": 8.4000,
+          "elevation_range": [900, 1690],
+          "difficulty": "beginner",
+          "duration_hours": "4-6",
+          "approach": "road_access",
+          "description": "Perfect introduction to Jotunheimen skiing",
+          "features": ["beginner_friendly", "good_views", "accessible"],
+          "avalanche_exposure": "low",
+          "technical_grade": 3
+        }
+      ]
+    },
+    "Hemsedal": {
+      "name": "Hemsedal Valley",
+      "description": "Family-friendly ski touring with reliable snow",
+      "weather_priority": "forest_valley",
+      "ski_tours": [
+        {
+          "name": "Grøndalen Forest Tours",
+          "lat": 60.8667,
+          "lon": 8.5500,
+          "elevation_range": [650, 1400],
+          "difficulty": "beginner",
+          "duration_hours": "3-5",
+          "approach": "road_access",
+          "description": "Gentle forest skiing perfect for families",
+          "features": ["family_friendly", "tree_skiing", "safe_terrain"],
+          "avalanche_exposure": "low",
+          "technical_grade": 3
+        },
+        {
+          "name": "Skogshorn",
+          "lat": 60.8000,
+          "lon": 8.4500,
+          "elevation_range": [800, 1728],
+          "difficulty": "intermediate",
+          "duration_hours": "5-7",
+          "approach": "road_access",
+          "description": "Popular peak with great views over Hemsedal",
+          "features": ["valley_views", "moderate_climb", "good_skiing"],
+          "avalanche_exposure": "moderate",
+          "technical_grade": 5
+        }
+      ]
+    },
+    "Sognefjord": {
+      "name": "Sognefjord Region",
+      "description": "Dramatic fjord valley skiing with towering walls",
+      "weather_priority": "fjord_valley",
+      "ski_tours": [
+        {
+          "name": "Årdal Waterfall Ski",
+          "lat": 61.2500,
+          "lon": 7.6833,
+          "elevation_range": [50, 1800],
+          "difficulty": "intermediate",
+          "duration_hours": "5-7",
+          "approach": "road_access",
+          "description": "Ski past frozen waterfalls in dramatic valley",
+          "features": ["waterfall_views", "protected_valley", "scenic"],
+          "avalanche_exposure": "moderate",
+          "technical_grade": 6
+        },
+        {
+          "name": "Turtagrø Area",
+          "lat": 61.5000,
+          "lon": 7.7500,
+          "elevation_range": [884, 2200],
+          "difficulty": "advanced",
+          "duration_hours": "6-8",
+          "approach": "hut_access",
+          "description": "Access to Store Skagastølstind area",
+          "features": ["high_peaks", "challenging_terrain", "alpine_environment"],
+          "avalanche_exposure": "high",
+          "technical_grade": 8
+        }
+      ]
+    },
+    "Romsdalen": {
+      "name": "Romsdalen Valley",
+      "description": "Norway's alpine valley with vertical walls",
+      "weather_priority": "fjord_valley", 
+      "ski_tours": [
+        {
+          "name": "Åndalsnes Valley Floor",
+          "lat": 62.5667,
+          "lon": 7.6833,
+          "elevation_range": [50, 1200],
+          "difficulty": "beginner",
+          "duration_hours": "3-5",
+          "approach": "road_access",
+          "description": "Safe skiing in the dramatic Romsdalen valley",
+          "features": ["dramatic_walls", "safe_terrain", "spectacular_setting"],
+          "avalanche_exposure": "low",
+          "technical_grade": 4
+        },
+        {
+          "name": "Romsdalshorn Approach",
+          "lat": 62.5000,
+          "lon": 7.6500,
+          "elevation_range": [100, 1550],
+          "difficulty": "advanced",
+          "duration_hours": "7-9",
+          "approach": "technical_approach",
+          "description": "Technical approach to the famous Romsdalshorn",
+          "features": ["technical_skiing", "alpine_character", "exposed_terrain"],
+          "avalanche_exposure": "high",
+          "technical_grade": 9
+        }
+      ]
+    },
+    "Sunnmore": {
+      "name": "Sunnmøre Alps",
+      "description": "Steep coastal mountains with dramatic relief",
+      "weather_priority": "coastal_alpine",
+      "ski_tours": [
+        {
+          "name": "Stranda Ski Resort Area",
+          "lat": 62.3167,
+          "lon": 6.9333,
+          "elevation_range": [100, 1600],
+          "difficulty": "intermediate",
+          "duration_hours": "4-6",
+          "approach": "road_access",
+          "description": "Access to steep Sunnmøre terrain near ski resort",
+          "features": ["steep_terrain", "fjord_views", "resort_access"],
+          "avalanche_exposure": "high",
+          "technical_grade": 7
+        },
+        {
+          "name": "Hjørundfjord Tours",
+          "lat": 62.1833,
+          "lon": 7.0000,
+          "elevation_range": [0, 1400],
+          "difficulty": "advanced",
+          "duration_hours": "6-8",
+          "approach": "boat_access",
+          "description": "Remote fjord skiing with dramatic relief",
+          "features": ["remote_access", "dramatic_relief", "pristine_terrain"],
+          "avalanche_exposure": "high",
+          "technical_grade": 8
+        }
+      ]
+    },
+    "Narvik": {
+      "name": "Narvik Region",
+      "description": "Arctic skiing with lift access and extended season",
+      "weather_priority": "coastal_alpine",
+      "ski_tours": [
+        {
+          "name": "Narvikfjellet Lift Access",
+          "lat": 68.4384,
+          "lon": 17.4272,
+          "elevation_range": [200, 1200],
+          "difficulty": "intermediate",
+          "duration_hours": "3-5",
+          "approach": "lift_access",
+          "description": "Convenient lift-accessed skiing with arctic views",
+          "features": ["lift_access", "arctic_views", "convenient"],
+          "avalanche_exposure": "moderate",
+          "technical_grade": 5
+        },
+        {
+          "name": "Ofoten Peninsula",
+          "lat": 68.5000,
+          "lon": 17.0000,
+          "elevation_range": [0, 1000],
+          "difficulty": "intermediate",
+          "duration_hours": "4-6",
+          "approach": "road_access",
+          "description": "Varied terrain on the Ofoten Peninsula",
+          "features": ["varied_terrain", "good_access", "reliable_snow"],
+          "avalanche_exposure": "moderate",
+          "technical_grade": 6
+        }
+      ]
+    },
+    "Trollheimen": {
+      "name": "Trollheimen Mountains",
+      "description": "Rolling mountains and plateau skiing",
+      "weather_priority": "plateau_ridge",
+      "ski_tours": [
+        {
+          "name": "Oppdal Plateau Tours",
+          "lat": 62.5833,
+          "lon": 9.6833,
+          "elevation_range": [600, 1600],
+          "difficulty": "intermediate",
+          "duration_hours": "4-6",
+          "approach": "road_access",
+          "description": "Extensive plateau skiing with rolling terrain",
+          "features": ["plateau_skiing", "extensive_terrain", "good_access"],
+          "avalanche_exposure": "low",
+          "technical_grade": 5
+        },
+        {
+          "name": "Snøhetta Area",
+          "lat": 62.3167,
+          "lon": 9.2667,
+          "elevation_range": [1000, 2286],
+          "difficulty": "advanced",
+          "duration_hours": "7-9",
+          "approach": "hut_access",
+          "description": "Norway's highest peak outside Jotunheimen",
+          "features": ["high_peak", "demanding_approach", "wilderness"],
+          "avalanche_exposure": "moderate",
+          "technical_grade": 7
+        }
+      ]
+    },
+    "Lillehammer": {
+      "name": "Lillehammer Region",
+      "description": "Accessible forest skiing near Oslo",
+      "weather_priority": "forest_valley",
+      "ski_tours": [
+        {
+          "name": "Peer Gynt Trail",
+          "lat": 61.1151,
+          "lon": 10.4663,
+          "elevation_range": [200, 1200],
+          "difficulty": "beginner",
+          "duration_hours": "3-5",
+          "approach": "road_access",
+          "description": "Gentle forest skiing on the famous Peer Gynt trail",
+          "features": ["historic_trail", "gentle_terrain", "forest_skiing"],
+          "avalanche_exposure": "very_low",
+          "technical_grade": 3
+        },
+        {
+          "name": "Sjusjøen Area",
+          "lat": 61.2333,
+          "lon": 10.5500,
+          "elevation_range": [800, 1200],
+          "difficulty": "beginner",
+          "duration_hours": "2-4",
+          "approach": "road_access",
+          "description": "Family-friendly skiing near Lillehammer",
+          "features": ["family_friendly", "easy_access", "prepared_trails"],
+          "avalanche_exposure": "very_low",
+          "technical_grade": 2
+        }
+      ]
+    },
+    "Vesteralen": {
+      "name": "Vesterålen Islands",
+      "description": "Gentle arctic skiing with ocean access",
+      "weather_priority": "coastal_alpine",
+      "ski_tours": [
+        {
+          "name": "Andøya Beaches",
+          "lat": 69.1167,
+          "lon": 16.1333,
+          "elevation_range": [0, 700],
+          "difficulty": "beginner",
+          "duration_hours": "3-5",
+          "approach": "road_access",
+          "description": "Unique beach-to-summit skiing in the arctic",
+          "features": ["beach_access", "gentle_terrain", "arctic_setting"],
+          "avalanche_exposure": "low",
+          "technical_grade": 3
+        },
+        {
+          "name": "Sortland Peaks",
+          "lat": 68.7000,
+          "lon": 15.4167,
+          "elevation_range": [100, 900],
+          "difficulty": "intermediate",
+          "duration_hours": "4-6",
+          "approach": "road_access",
+          "description": "Moderate peaks with island views",
+          "features": ["island_views", "moderate_terrain", "good_access"],
+          "avalanche_exposure": "low",
+          "technical_grade": 4
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "total_regions": 11,
+    "total_ski_tours": 32,
+    "difficulty_distribution": {
+      "beginner": 8,
+      "intermediate": 14,
+      "advanced": 10
+    },
+    "terrain_types": {
+      "coastal_alpine": ["Lyngen", "Lofoten", "Sunnmore", "Narvik", "Vesteralen"],
+      "high_alpine": ["Jotunheimen"],
+      "forest_valley": ["Hemsedal", "Lillehammer"],
+      "fjord_valley": ["Sognefjord", "Romsdalen"],
+      "plateau_ridge": ["Trollheimen"]
+    }
+  }
+}
